@@ -1,7 +1,7 @@
 #include "cola.h"
 #include "testing.h"
 #include <stdio.h>
-#include "pila/pila.c"
+#include "../pila/pila.c"
 
 /* Pruebas con cola vacía */
 void pruebas_cola_vacia() {
