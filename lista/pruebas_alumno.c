@@ -1,6 +1,5 @@
 #include "lista.h"
 #include "testing.h"
-#include <stdio.h>
 
 void pruebas_lista_vacia() {
 	lista_t *lista = lista_crear();
@@ -61,7 +60,34 @@ void pruebas_enteros() {
 	lista_destruir(lista, NULL);
 }
 
+void pruebas_iter() {
+	lista_t *lista = lista_crear();
+	lista_iter_t *iter = lista_iter_crear(lista);
+	int arr[20];
+	int i;
+	for (i = 0; i < 20; i++) {
+		arr[i] = i + 1;
+	}
+
+	lista_imprimir_enteros(lista);
+
+	bool ok = true;
+	for (i = 0; i < 20; i++) {
+		ok &= lista_insertar_ultimo(lista, &arr[i]);
+	}
+
+	lista_imprimir_enteros(lista);
+	int dato;
+	while (!lista_iter_al_final(iter)) {
+		dato = *(int*)lista_iter_ver_actual(iter);
+		printf("%d, ", dato);
+		lista_iter_avanzar(iter);
+	}
+	putchar('\n');
+}
+
 void pruebas_lista_alumno() {
-	pruebas_lista_vacia();
-	pruebas_enteros();
+	//pruebas_lista_vacia();
+	//pruebas_enteros();
+	pruebas_iter();
 }
