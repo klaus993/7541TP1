@@ -31,7 +31,7 @@ void cola_destruir(cola_t *cola, void destruir_dato(void*)){
 		}
 	}
 	// Libero todos los nodos
-	while (cola->prim != NULL) {
+	while (cola_esta_vacia(cola)) {
 		actual = cola->prim;
 		cola->prim = cola->prim->prox;
 		free(actual);
@@ -73,7 +73,7 @@ void* cola_desencolar(cola_t *cola){
 	}
 	nodo_t *aux = cola->prim;
 	void *dato = aux->dato;
-	cola->prim = cola->prim->	prox;
+	cola->prim = cola->prim->prox;
 	free(aux);
 	return dato;
 }

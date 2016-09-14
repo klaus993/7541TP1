@@ -30,7 +30,7 @@ bool lista_insertar_primero(lista_t *lista, void *dato){
 		return false;
 	}
 	nodo_nuevo->dato = dato;
-	if (lista->prim == NULL) {
+	if (lista_esta_vacia(lista)) {
 		nodo_nuevo->prox = NULL;
 		lista->prim = nodo_nuevo;
 		lista->cantidad++;
@@ -48,7 +48,7 @@ bool lista_insertar_ultimo(lista_t *lista, void *dato) {
 	}
 	nodo_nuevo->prox = NULL;
 	nodo_nuevo->dato = dato;
-	if (lista->prim == NULL) {
+	if (lista_esta_vacia(lista)) {
 		lista->prim = nodo_nuevo;
 		lista->cantidad++;
 		return true;
@@ -62,22 +62,59 @@ bool lista_insertar_ultimo(lista_t *lista, void *dato) {
 }
 
 void *lista_borrar_primero(lista_t *lista) {
-	return NULL;
+	if (lista_esta_vacia(lista)) {
+		return NULL;
+	}
+	nodo_t *aux = lista->prim;
+	void *dato = aux->dato;
+	lista->prim = lista->prim->prox;
+	free(aux);
+	return dato;
 }
 
 void *lista_ver_primero(const lista_t *lista) {
-	return NULL;
+	if (lista_esta_vacia(lista)) {
+		return NULL;
+	}
+	return lista->prim->dato;
 }
 
 size_t lista_largo(const lista_t *lista) {
-	return 1;
+	size_t largo = 0;
+	if (lista_esta_vacia(lista)) {
+		return largo;
+	}
+	nodo_t *actual = lista->prim;
+	while (actual != NULL) {
+		largo++;
+		actual = actual->prox;
+	}
+	return largo;
 }
 
 void lista_destruir(lista_t *lista, void destruir_dato(void *)) {
-
+	nodo_t *actual = lista->prim;
+	// Si se pasó una función, libero los datos
+	if (destruir_dato != NULL) {
+		while (actual != NULL) {
+			destruir_dato(actual->dato);
+			actual = actual->prox;
+		}
+	}
+	// Libero todos los nodos
+	while (lista->prim != NULL) {
+		actual = lista->prim;
+		lista->prim = lista->prim->prox;
+		free(actual);
+	}
+	free(lista);
 }
 
 void lista_imprimir_enteros(const lista_t *lista) {
+	if (lista_esta_vacia(lista)) {
+		printf("[]\n");
+		return;
+	}
 	nodo_t *actual = lista->prim;
 	putchar('[');
 	while (actual->prox != NULL) {
