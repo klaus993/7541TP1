@@ -1,7 +1,9 @@
 #include "cola.h"
 #include "testing.h"
 #include <stdio.h>
-#include "../pila/pila.c"
+#include "pila/pila.c"
+
+#define MAX_ELEMENTOS 500
 
 /* Pruebas con cola vacía */
 void pruebas_cola_vacia() {
@@ -38,25 +40,25 @@ void pruebas_enteros() {
 
 	print_test("Verifico que la cola esté vacía", cola_esta_vacia(cola));
 
-	int arr[500];
+	int arr[MAX_ELEMENTOS];
 	int i;
-	for (i = 0; i < 500; i++) {
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		arr[i] = i;
 	}
 	bool ok = true;
-	for (i = 0; i < 500; i++) {
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= cola_encolar(cola, &arr[i]);
 	}
 
-	print_test("Encolo 500 elementos", ok);
+	printf("Encolo %d elementos", MAX_ELEMENTOS); print_test("", ok);
 	print_test("Veo que el primero sea 0", *(int*)cola_ver_primero(cola) == 0);
 
 	ok = true;
-	for (i = 0; i < 500; i++) {
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= *(int*)cola_desencolar(cola) == arr[i];
 	}
 
-	print_test("Desencolo los 500 elementos... verifico que sus valores sean correctos", ok);
+	print_test("Desencolo todos los elementos... verifico que sus valores sean correctos", ok);
 
 	cola_destruir(cola, NULL);
 }
@@ -85,22 +87,22 @@ void pruebas_pila() {
 	pila_t *pila_aux = (pila_t*)cola_desencolar(cola);
 	print_test("Desencolo pila, veo si tope = 6", *(int*)pila_ver_tope(pila_aux));
 
-	int arr1[500];
-	for (i = 0; i < 500; i++) {
+	int arr1[MAX_ELEMENTOS];
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		arr1[i] = i;
 	}
 	bool ok = true;
-	for(i = 0; i < 500; i++) {
+	for(i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= pila_apilar(pila_1, &arr1[i]);
 	}
-	print_test("Creo pila_1 y le apilo 500 elementos", ok);
+	printf("Creo pila_1 y le apilo %d elementos", MAX_ELEMENTOS); print_test("", ok);
 
 	print_test("Encolo pila_1", cola_encolar(cola, pila_1));
-	print_test("Veo si el tope = 499 de la pila_1 encolada", *(int*)pila_ver_tope((pila_t*)cola_ver_primero(cola)) == 499);
+	print_test("Veo si el tope de la pila_1 encolada es correcto", *(int*)pila_ver_tope((pila_t*)cola_ver_primero(cola)) == MAX_ELEMENTOS - 1);
 
 	print_test("Vuelvo a encolar pila", cola_encolar(cola, pila_aux));
 
-	printf("Destruyo datos pasando función propia...\n");
+	printf("Destruyo datos pasando función propia"); print_test("", true);
 
 	cola_destruir(cola, destruir_pila);
 }
