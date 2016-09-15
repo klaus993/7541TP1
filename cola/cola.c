@@ -1,6 +1,7 @@
 #include "cola.h"
 #include <stdlib.h>
 
+
 typedef struct nodo {
 	void *dato;
 	struct nodo *prox;
