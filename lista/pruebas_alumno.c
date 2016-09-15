@@ -62,7 +62,9 @@ void pruebas_enteros() {
 
 void pruebas_iter() {
 	lista_t *lista = lista_crear();
-	lista_iter_t *iter = lista_iter_crear(lista);
+
+	printf("- PRUEBAS ITERADOR -\n");
+
 	int arr[20];
 	int i;
 	for (i = 0; i < 20; i++) {
@@ -77,6 +79,11 @@ void pruebas_iter() {
 	}
 
 	lista_imprimir_enteros(lista);
+
+	lista_iter_t *iter = lista_iter_crear(lista);
+
+	print_test("Iterador no esta en el final", !lista_iter_al_final(iter));
+
 	int dato;
 	while (!lista_iter_al_final(iter)) {
 		dato = *(int*)lista_iter_ver_actual(iter);
@@ -84,6 +91,24 @@ void pruebas_iter() {
 		lista_iter_avanzar(iter);
 	}
 	putchar('\n');
+
+	lista_iter_destruir(iter)
+	print_test("Destruyo iterador", true);
+
+	int a = 231;
+	iter = lista_iter_crear(lista);
+	i = 0;
+	while (i < 24) {
+		print_test("Avanzo", lista_iter_avanzar(iter));
+		i++;
+	}
+	print_test("Estoy al final?", lista_iter_al_final(iter));
+	print_test("Inserto un item", lista_iter_insertar(iter, &a));
+
+	lista_imprimir_enteros(lista);
+
+	lista_destruir(lista, NULL);
+	
 }
 
 void pruebas_lista_alumno() {

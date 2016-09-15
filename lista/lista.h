@@ -29,7 +29,7 @@ void lista_destruir(lista_t *lista, void destruir_dato(void *));
 
 void lista_imprimir_enteros(const lista_t *lista);
 
-/****************************************************/
+/******************************************************************/
 
 struct lista_iter;
 

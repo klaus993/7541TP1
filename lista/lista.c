@@ -1,9 +1,18 @@
 #include "lista.h"
 
+/***************************************************
+ *               ESTRUCTURA NODO                   *
+ ***************************************************/
+
 struct nodo {
 	void *dato;
 	nodo_t *prox;
 };
+
+/***************************************************
+ *           ESTRUCTURA LISTA ENLAZADA             *
+ ***************************************************/
+
 
 struct lista {
 	nodo_t *prim;
@@ -126,7 +135,11 @@ void lista_imprimir_enteros(const lista_t *lista) {
 	putchar('\n');
 }
 
-/*************************************************/
+
+/***************************************************
+ *               ITERADOR DE LISTA                 *
+ ***************************************************/
+
 
 struct lista_iter {
 	nodo_t *actual;
@@ -144,6 +157,9 @@ lista_iter_t *lista_iter_crear(lista_t *lista) {
 
 /* Pre: el iterador fue creado */
 bool lista_iter_avanzar(lista_iter_t *iter){
+	if (lista_iter_al_final(iter)) {
+		return false;
+	}
 	iter->actual = iter->actual->prox;
 	return true;
 }
@@ -162,7 +178,7 @@ void lista_iter_destruir(lista_iter_t *iter) {
 
 bool lista_iter_insertar(lista_iter_t *iter, void *dato) {
 	nodo_t *nodo_nuevo = malloc(sizeof(nodo_t));
-	if (nodo_nuevo == NULL) {
+	if (nodo_nuevo == NULL || lista_iter_al_final(iter)) {
 		return false;
 	}
 	nodo_nuevo->dato = dato;
@@ -181,4 +197,3 @@ void *lista_iter_borrar(lista_iter_t *iter) {
 	free(aux);
 	return dato;
 }
-

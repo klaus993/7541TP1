@@ -1,3 +1,6 @@
+#ifndef MAIN_C
+#define MAIN_C
+
 #include "testing.h"
 #include <stdio.h>
 
@@ -14,3 +17,5 @@ int main(void) {
 
     return failure_count() > 0;
 }
+
+#endif
