@@ -4,22 +4,23 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_ELEMENTOS 700
+#define MAX_ELEMENTOS 500
 
 /* ******************************************************************
  *                   PRUEBAS UNITARIAS ALUMNO
  * *****************************************************************/
 
+/* Prueba apilando y desapilando para verificar que la capacidad nunca quede en 0 */
 void prueba_null() {
     pila_t* pila = pila_crear();
+    printf("- PRUEBAS APILANDO Y DESAPILANDO -\n");
     bool ok = true;
     for (int i = 0; i < MAX_ELEMENTOS; i++){
         ok &= pila_apilar(pila, NULL);
         pila_desapilar(pila);
     }
     print_test("Se puede apilar y desapilar muchas veces", ok);
-    size_t a = 1/4;
-    printf("%zu\n", a);
+    pila_destruir(pila);
 }
 
 /* Pruebas para verificar el comportamiento de las primitivas cuando la pila está vacía */
@@ -129,8 +130,8 @@ void pruebas_vector_char() {
 }
 
 void pruebas_pila_alumno() {
-    //pruebas_pila_vacia();
+    pruebas_pila_vacia();
     prueba_null();
-    //pruebas_enteros();
-    //pruebas_vector_char();
+    pruebas_enteros();
+    pruebas_vector_char();
 }
