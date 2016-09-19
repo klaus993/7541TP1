@@ -1,6 +1,7 @@
 #include "cola.h"
 #include <stdlib.h>
 
+
 typedef struct nodo {
 	void *dato;
 	struct nodo *prox;
@@ -31,7 +32,7 @@ void cola_destruir(cola_t *cola, void destruir_dato(void*)){
 		}
 	}
 	// Libero todos los nodos
-	while (cola_esta_vacia(cola)) {
+	while (!cola_esta_vacia(cola)) {
 		actual = cola->prim;
 		cola->prim = cola->prim->prox;
 		free(actual);

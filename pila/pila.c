@@ -6,7 +6,7 @@
 o se divide por este número, dependiendo si se quiere agrandar o achicar. */
 #define MOD_REDIMENSION 2
 /* Modificador utilizado para decidir cuándo disminuir la capacidad de la pila. */
-#define MOD_DISMINUCION 1/4
+#define MOD_DISMINUCION 4
 
 /**	*************************
 	Nombre: Klaus Lungwitz
@@ -55,7 +55,7 @@ bool pila_esta_vacia(const pila_t *pila) {
 
 bool pila_apilar(pila_t *pila, void* valor) {
 	if (pila->cantidad >= pila->capacidad) {
-		if (! pila_redimensionar(pila, pila->capacidad * (MOD_REDIMENSION))) {
+		if (!pila_redimensionar(pila, pila->capacidad * (MOD_REDIMENSION))) {
 			return false;
 		}
 	}
@@ -74,7 +74,7 @@ void* pila_desapilar(pila_t *pila) {
 	if (pila_esta_vacia(pila)) {
 		return NULL;
 	}
-	if (pila->cantidad - 1 < pila->capacidad * (MOD_DISMINUCION)) {
+	if (pila->cantidad <= pila->capacidad / MOD_DISMINUCION) {
 		pila_redimensionar(pila, pila->capacidad / (MOD_REDIMENSION));
 	}
 	return pila->datos[--pila->cantidad];

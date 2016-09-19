@@ -4,9 +4,24 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_ELEMENTOS 500
+
 /* ******************************************************************
  *                   PRUEBAS UNITARIAS ALUMNO
  * *****************************************************************/
+
+/* Prueba apilando y desapilando para verificar que la capacidad nunca quede en 0 */
+void prueba_null() {
+    pila_t* pila = pila_crear();
+    printf("- PRUEBAS APILANDO Y DESAPILANDO -\n");
+    bool ok = true;
+    for (int i = 0; i < MAX_ELEMENTOS; i++){
+        ok &= pila_apilar(pila, NULL);
+        pila_desapilar(pila);
+    }
+    print_test("Se puede apilar y desapilar muchas veces", ok);
+    pila_destruir(pila);
+}
 
 /* Pruebas para verificar el comportamiento de las primitivas cuando la pila está vacía */
 void pruebas_pila_vacia() {
@@ -29,11 +44,11 @@ void pruebas_enteros() {
     pila_t *pila = pila_crear();
     int arr[] = {1, 2, 3};
     size_t largo_arr = 3;
-    int arr1[500];
+    int arr1[MAX_ELEMENTOS];
     bool ok;
     int i;
 
-    for (i = 0; i < 500; i++) {
+    for (i = 0; i < MAX_ELEMENTOS; i++) {
         arr1[i] = i;
     }
 
@@ -58,17 +73,17 @@ void pruebas_enteros() {
 
     print_test("Veo que pila no esté vacía.", !pila_esta_vacia(pila));
 
-    printf("- Apilo 500 elementos -\n");
+    printf("- Apilo %d elementos -\n", MAX_ELEMENTOS);
     ok = true;
-    for (i = 0; i < 500; i++) {
+    for (i = 0; i < MAX_ELEMENTOS; i++) {
         ok &= pila_apilar(pila, &arr1[i]);
     }
-    print_test("Se apilaron los 500", ok);
+    print_test("Se apilaron todos los elementos.", ok);
 
-    print_test("Veo que tope sea 499", *(int*)pila_ver_tope(pila) == 499);
+    print_test("Veo que el tope sea correcto", *(int*)pila_ver_tope(pila) == MAX_ELEMENTOS - 1);
 
     ok = true;
-    for (i = 499; i >= 0; i--) {
+    for (i = MAX_ELEMENTOS - 1; i >= 0; i--) {
         ok &= *(int*)pila_desapilar(pila) == i;
     }
     print_test("Verifico que cada valor desapilado sea correcto", ok); // El tope debería haber quedado nuevamente = 1
@@ -116,6 +131,7 @@ void pruebas_vector_char() {
 
 void pruebas_pila_alumno() {
     pruebas_pila_vacia();
+    prueba_null();
     pruebas_enteros();
     pruebas_vector_char();
 }
