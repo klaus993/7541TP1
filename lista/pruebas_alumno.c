@@ -23,7 +23,7 @@ void pruebas_enteros() {
 
 	print_test("Veo que la lista esté vacía", lista_esta_vacia(lista));
 
-	//lista_imprimir_enteros(lista);
+	lista_imprimir_enteros(lista);
 
 	bool ok = true;
 	for (i = 0; i < 20; i++) {
@@ -41,7 +41,7 @@ void pruebas_enteros() {
 
 	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == 40);
 
-	//lista_imprimir_enteros(lista);
+	lista_imprimir_enteros(lista);
 
 	ok = true;
 	bool primero = true;
@@ -55,7 +55,7 @@ void pruebas_enteros() {
 
 	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == 20);
 
-	//lista_imprimir_enteros(lista);
+	lista_imprimir_enteros(lista);
 
 	lista_destruir(lista, NULL);
 }
@@ -82,12 +82,12 @@ void pruebas_iter() {
 
 	lista_iter_t *iter = lista_iter_crear(lista);
 
+	print_test("Creo iterador", iter != NULL);
+
 	print_test("Iterador no esta en el final", !lista_iter_al_final(iter));
 
-	int dato;
 	while (!lista_iter_al_final(iter)) {
-		dato = *(int*)lista_iter_ver_actual(iter);
-		printf("%d, ", dato);
+		printf("%d, ", *(int*)lista_iter_ver_actual(iter));
 		lista_iter_avanzar(iter);
 	}
 	putchar('\n');
@@ -97,8 +97,9 @@ void pruebas_iter() {
 
 	int a = 231;
 	iter = lista_iter_crear(lista);
+	print_test("Nuevo iterador creado", iter != NULL);
 	i = 0;
-	while (i < 24) {
+	while (i < 2) {
 		print_test("Avanzo", lista_iter_avanzar(iter));
 		i++;
 	}

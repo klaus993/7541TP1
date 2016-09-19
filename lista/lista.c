@@ -16,6 +16,7 @@ struct nodo {
 
 struct lista {
 	nodo_t *prim;
+	nodo_t *ult;
 	size_t cantidad;
 };
 
@@ -25,6 +26,7 @@ lista_t *lista_crear() {
 		return NULL;
 	}
 	lista->prim = NULL;
+	lista->ult = NULL;
 	lista->cantidad = 0;
 	return lista;
 }
@@ -39,10 +41,11 @@ bool lista_insertar_primero(lista_t *lista, void *dato){
 		return false;
 	}
 	nodo_nuevo->dato = dato;
+	lista->cantidad++;
 	if (lista_esta_vacia(lista)) {
 		nodo_nuevo->prox = NULL;
 		lista->prim = nodo_nuevo;
-		lista->cantidad++;
+		lista->ult = nodo_nuevo;
 		return true;
 	}
 	nodo_nuevo->prox = lista->prim;
@@ -57,16 +60,13 @@ bool lista_insertar_ultimo(lista_t *lista, void *dato) {
 	}
 	nodo_nuevo->prox = NULL;
 	nodo_nuevo->dato = dato;
+	lista->cantidad++;
 	if (lista_esta_vacia(lista)) {
 		lista->prim = nodo_nuevo;
-		lista->cantidad++;
+		lista->ult = nodo_nuevo;
 		return true;
 	}
-	nodo_t *actual = lista->prim;
-	while (actual->prox != NULL) {
-		actual = actual->prox;
-	}
-	actual->prox = nodo_nuevo;
+	lista->ult->prox = nodo_nuevo;
 	return true;
 }
 
@@ -78,6 +78,7 @@ void *lista_borrar_primero(lista_t *lista) {
 	void *dato = aux->dato;
 	lista->prim = lista->prim->prox;
 	free(aux);
+	lista->cantidad--;
 	return dato;
 }
 
@@ -89,16 +90,7 @@ void *lista_ver_primero(const lista_t *lista) {
 }
 
 size_t lista_largo(const lista_t *lista) {
-	size_t largo = 0;
-	if (lista_esta_vacia(lista)) {
-		return largo;
-	}
-	nodo_t *actual = lista->prim;
-	while (actual != NULL) {
-		largo++;
-		actual = actual->prox;
-	}
-	return largo;
+	return lista->cantidad;
 }
 
 void lista_destruir(lista_t *lista, void destruir_dato(void *)) {
@@ -126,7 +118,7 @@ void lista_imprimir_enteros(const lista_t *lista) {
 	}
 	nodo_t *actual = lista->prim;
 	putchar('[');
-	while (actual->prox != NULL) {
+	while (actual != lista->ult) {
 		printf("%d, ", *(int*)actual->dato);
 		actual = actual->prox;
 	}
@@ -143,6 +135,8 @@ void lista_imprimir_enteros(const lista_t *lista) {
 
 struct lista_iter {
 	nodo_t *actual;
+	nodo_t *anterior;
+	lista_t *lista;
 };
 
 
@@ -151,7 +145,9 @@ lista_iter_t *lista_iter_crear(lista_t *lista) {
 	if (iter == NULL) {
 		return NULL;
 	}
+	iter->anterior = NULL;
 	iter->actual = lista->prim;
+	iter->lista = lista;
 	return iter;
 }
 
@@ -160,11 +156,15 @@ bool lista_iter_avanzar(lista_iter_t *iter){
 	if (lista_iter_al_final(iter)) {
 		return false;
 	}
+	iter->anterior = iter->actual;
 	iter->actual = iter->actual->prox;
 	return true;
 }
 
 void *lista_iter_ver_actual(const lista_iter_t *iter){
+	if (lista_iter_al_final(iter)) {
+		return NULL;
+	}
 	return iter->actual->dato;
 }
 
@@ -178,12 +178,13 @@ void lista_iter_destruir(lista_iter_t *iter) {
 
 bool lista_iter_insertar(lista_iter_t *iter, void *dato) {
 	nodo_t *nodo_nuevo = malloc(sizeof(nodo_t));
-	if (nodo_nuevo == NULL || lista_iter_al_final(iter)) {
+	if (nodo_nuevo == NULL) {
 		return false;
 	}
 	nodo_nuevo->dato = dato;
-	nodo_nuevo->prox = iter->actual->prox;
-	iter->actual->prox = nodo_nuevo;
+	nodo_nuevo->prox = iter->actual;
+	iter->anterior->prox = nodo_nuevo;
+	iter->lista->cantidad++;
 	return true;
 }
 
@@ -191,9 +192,10 @@ void *lista_iter_borrar(lista_iter_t *iter) {
 	if (iter->actual->prox == NULL) {
 		return NULL;
 	}
-	nodo_t *aux = iter->actual->prox;
+	iter->anterior->prox = iter->actual->prox;
+	iter->actual = iter->actual->prox;
+	nodo_t *aux = iter->actual;
 	void *dato = aux->dato;
-	iter->actual->prox = iter->actual->prox->prox;
 	free(aux);
 	return dato;
 }
