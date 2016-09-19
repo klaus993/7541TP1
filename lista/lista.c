@@ -158,6 +158,7 @@ bool lista_iter_avanzar(lista_iter_t *iter){
 	}
 	iter->anterior = iter->actual;
 	iter->actual = iter->actual->prox;
+	printf("Dato: %d\n", *(int*)iter->actual->dato);
 	return true;
 }
 
