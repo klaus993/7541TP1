@@ -131,7 +131,7 @@ void pruebas_encolar_cola() {
 	cola_t *cola = cola_crear();
 
 	print_test("Encolo la misma cola", cola_encolar(cola,cola));
-	cola_destruir(cola, destruir_cola);
+	cola_destruir(cola, free);
 }
 
 void pruebas_cola_alumno() {
