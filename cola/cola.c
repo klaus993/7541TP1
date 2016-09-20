@@ -7,6 +7,10 @@ typedef struct nodo {
 	struct nodo *prox;
 } nodo_t;
 
+nodo_t *nodo_crear() {
+	return (nodo_t*)malloc(sizeof(nodo_t));
+}
+
 struct cola {
 	nodo_t *prim;
 	nodo_t *ult;
@@ -22,7 +26,7 @@ cola_t* cola_crear(void) {
 	return cola;
 }
 
-void cola_destruir(cola_t *cola, void destruir_dato(void*)){
+void cola_destruir(cola_t *cola, void destruir_dato(void*)) {
 	nodo_t *actual = cola->prim;
 	// Si se pasó una función, libero los datos
 	if (destruir_dato != NULL) {
@@ -33,9 +37,7 @@ void cola_destruir(cola_t *cola, void destruir_dato(void*)){
 	}
 	// Libero todos los nodos
 	while (!cola_esta_vacia(cola)) {
-		actual = cola->prim;
-		cola->prim = cola->prim->prox;
-		free(actual);
+		cola_desencolar(cola);
 	}
 	free(cola);
 }
@@ -45,7 +47,7 @@ bool cola_esta_vacia(const cola_t *cola){
 }
 
 bool cola_encolar(cola_t *cola, void* valor){
-	nodo_t *nodo_nuevo = malloc(sizeof(nodo_t));
+	nodo_t *nodo_nuevo = nodo_crear();
 	if (nodo_nuevo == NULL) {
 		return false;
 	}
@@ -76,5 +78,8 @@ void* cola_desencolar(cola_t *cola){
 	void *dato = aux->dato;
 	cola->prim = cola->prim->prox;
 	free(aux);
+	if (cola_esta_vacia(cola)) {
+		cola->ult = NULL;
+	}
 	return dato;
 }

@@ -1,7 +1,7 @@
 #include "cola.h"
 #include "testing.h"
 #include <stdio.h>
-#include "pila/pila.c"
+#include "../pila/pila.c"
 
 #define MAX_ELEMENTOS 500
 
