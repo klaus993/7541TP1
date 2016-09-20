@@ -52,14 +52,13 @@ bool cola_encolar(cola_t *cola, void* valor){
 		return false;
 	}
 	nodo_nuevo->dato = valor;
-	nodo_nuevo->prox = NULL;	
+	nodo_nuevo->prox = NULL;
 	if (cola_esta_vacia(cola)) {
 		cola->prim = nodo_nuevo;
-		cola->ult = nodo_nuevo;
-		return true;
+	} else {
+		cola->ult->prox = nodo_nuevo;
 	}
-	cola->ult->prox = nodo_nuevo;
-	cola->ult = cola->ult->prox;
+	cola->ult = nodo_nuevo;
 	return true;
 }
 
