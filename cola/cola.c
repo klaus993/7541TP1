@@ -27,17 +27,12 @@ cola_t* cola_crear(void) {
 }
 
 void cola_destruir(cola_t *cola, void destruir_dato(void*)) {
-	nodo_t *actual = cola->prim;
-	// Si se pasó una función, libero los datos
-	if (destruir_dato != NULL) {
-		while (actual != NULL) {
-			destruir_dato(actual->dato);
-			actual = actual->prox;
-		}
-	}
-	// Libero todos los nodos
+	void *dato;
 	while (!cola_esta_vacia(cola)) {
-		cola_desencolar(cola);
+		dato = cola_desencolar(cola);
+		if (destruir_dato != NULL) {
+			destruir_dato(dato);
+		}
 	}
 	free(cola);
 }

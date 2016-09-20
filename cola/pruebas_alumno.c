@@ -75,7 +75,6 @@ void pruebas_pila() {
 
 	cola_t *cola = cola_crear();
 	pila_t *pila = pila_crear();
-	pila_t *pila_1 = pila_crear();
 	int arr[] = {1, 2, 3, 4, 5, 6};
 	int i;
 	for (i = 0; i < 6; i++) {
@@ -91,6 +90,7 @@ void pruebas_pila() {
 	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		arr1[i] = i;
 	}
+	pila_t *pila_1 = pila_crear();
 	bool ok = true;
 	for(i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= pila_apilar(pila_1, &arr1[i]);
