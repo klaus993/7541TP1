@@ -25,7 +25,7 @@ void pruebas_enteros() {
 	printf("- PRUEBAS NÚMEROS ENTEROS -\n");
 
 	cola_t *cola = cola_crear();
-	int a = 1, b = 2;
+	int a = 1, b = 2, c = 3, d = 4;
 
 	print_test("Encolo un 1", cola_encolar(cola, &a));
 	print_test("Verifico que lo encolado sea un 1", *(int*)cola_ver_primero(cola) == 1);
@@ -34,9 +34,16 @@ void pruebas_enteros() {
 	print_test("Encolo un 2", cola_encolar(cola, &b));
 	print_test("Verifico que el primer elemento sea un 1", *(int*)cola_ver_primero(cola) == 1);
 
-	print_test("Desencolo y veo que sea un 1", *(int*)cola_desencolar(cola) == 1);
+	print_test("Encolo un 3", cola_encolar(cola, &c));
+	print_test("Verifico que el primer elemento sea un 1", *(int*)cola_ver_primero(cola) == 1);
 
+	print_test("Encolo un 4", cola_encolar(cola, &d));
+	print_test("Verifico que el primer elemento sea un 1", *(int*)cola_ver_primero(cola) == 1);
+
+	print_test("Desencolo y veo que sea un 1", *(int*)cola_desencolar(cola) == 1);
 	print_test("Desencolo y veo que sea un 2", *(int*)cola_desencolar(cola) == 2);
+	print_test("Desencolo y veo que sea un 3", *(int*)cola_desencolar(cola) == 3);
+	print_test("Desencolo y veo que sea un 4", *(int*)cola_desencolar(cola) == 4);
 
 	print_test("Verifico que la cola esté vacía", cola_esta_vacia(cola));
 
@@ -59,8 +66,17 @@ void pruebas_enteros() {
 	}
 
 	print_test("Desencolo todos los elementos... verifico que sus valores sean correctos", ok);
+	print_test("Veo que la cola esté vacía", cola_esta_vacia(cola));
 
-	cola_destruir(cola, NULL);
+	ok = true;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= cola_encolar(cola, &arr[i]);
+	}
+	printf("Vuelvo a encolar %d elementos", MAX_ELEMENTOS); print_test("", ok);
+
+	print_test("Veo que la cola no esté vacía", !cola_esta_vacia(cola));
+
+	cola_destruir(cola, NULL); print_test("Destruyo cola", true);
 }
 
 /* Función creada para poder pasársela por parámetro a cola_destruir (ya que recibe void*)
@@ -107,8 +123,20 @@ void pruebas_pila() {
 	cola_destruir(cola, destruir_pila);
 }
 
+void destruir_cola(void *cola) {
+	cola_destruir((cola_t*)cola, NULL);
+}
+
+void pruebas_encolar_cola() {
+	cola_t *cola = cola_crear();
+
+	print_test("Encolo la misma cola", cola_encolar(cola,cola));
+	cola_destruir(cola, destruir_cola);
+}
+
 void pruebas_cola_alumno() {
 	pruebas_cola_vacia();
 	pruebas_enteros();
 	pruebas_pila();
+	pruebas_encolar_cola();
 }
