@@ -27,6 +27,14 @@ void pruebas_enteros() {
 	cola_t *cola = cola_crear();
 	int a = 1, b = 2, c = 3, d = 4;
 
+	bool ok = true;
+	for (int i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= cola_encolar(cola, &a);
+		cola_desencolar(cola);
+	}
+
+	print_test("Se puede encolar y desencolar muchas veces", ok);
+
 	print_test("Encolo un 1", cola_encolar(cola, &a));
 	print_test("Verifico que lo encolado sea un 1", *(int*)cola_ver_primero(cola) == 1);
 	print_test("Verifico que la cola no esté vacía", !cola_esta_vacia(cola));
@@ -52,7 +60,7 @@ void pruebas_enteros() {
 	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		arr[i] = i;
 	}
-	bool ok = true;
+	ok = true;
 	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= cola_encolar(cola, &arr[i]);
 	}
@@ -96,18 +104,42 @@ void pruebas_pila() {
 	for (i = 0; i < 6; i++) {
 		pila_apilar(pila, &arr[i]);
 	}
+
+	bool ok = true;
+	bool ok1 = true;
+	bool ok2 = true;
+	pila_t *pila_aux;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= cola_encolar(cola, pila);
+		ok1 &= *(int*)pila_ver_tope((pila_t*)cola_desencolar(cola)) == 6;
+		ok2 &= cola_esta_vacia(cola);
+	}
+
+	print_test("Se puede encolar y desencolar muchas veces una pila", ok);
+	print_test("Cada vez que se desencoló el valor del tope de la pila fue el correcto", ok1);
+	print_test("Cada vez que se desencoló, se verificó que la pila esté vacía", ok2);
+
 	print_test("Encolo pila", cola_encolar(cola, pila));
 	print_test("Veo si el tope = 6 de la pila encolada", *(int*)pila_ver_tope((pila_t*)cola_ver_primero(cola)) == 6);
 	
-	pila_t *pila_aux = (pila_t*)cola_desencolar(cola);
-	print_test("Desencolo pila, veo si tope = 6", *(int*)pila_ver_tope(pila_aux));
+	pila_aux = cola_desencolar(cola);
+	print_test("Desencolo pila, veo si tope = 6", *(int*)pila_ver_tope(pila_aux) == 6);
+
+	print_test("Verifico que la cola esté vacía", cola_esta_vacia(cola));
+
+	print_test("Encolo pila", cola_encolar(cola, pila_aux));
+	print_test("Veo si el tope = 6 de la pila encolada", *(int*)pila_ver_tope((pila_t*)cola_ver_primero(cola)) == 6);
+
+	print_test("Desencolo pila, veo si tope = 6", *(int*)pila_ver_tope((pila_t*)cola_desencolar(cola)) == 6);
+
+	print_test("Verifico que la cola esté vacía", cola_esta_vacia(cola));
 
 	int arr1[MAX_ELEMENTOS];
 	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		arr1[i] = i;
 	}
 	pila_t *pila_1 = pila_crear();
-	bool ok = true;
+	ok = true;
 	for(i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= pila_apilar(pila_1, &arr1[i]);
 	}
@@ -116,22 +148,22 @@ void pruebas_pila() {
 	print_test("Encolo pila_1", cola_encolar(cola, pila_1));
 	print_test("Veo si el tope de la pila_1 encolada es correcto", *(int*)pila_ver_tope((pila_t*)cola_ver_primero(cola)) == MAX_ELEMENTOS - 1);
 
-	print_test("Vuelvo a encolar pila", cola_encolar(cola, pila_aux));
+	print_test("Vuelvo a encolar pila", cola_encolar(cola, pila));
 
-	printf("Destruyo datos pasando función propia"); print_test("", true);
+	pila_t *pila_2 = pila_crear();
+	print_test("Encolo pila_2", cola_encolar(cola, pila_2));
 
-	cola_destruir(cola, destruir_pila);
-}
+	// En este punto hay 3 pilas encoladas, pila, pila_1 y pila_2
 
-void destruir_cola(void *cola) {
-	cola_destruir((cola_t*)cola, NULL);
+	cola_destruir(cola, destruir_pila); print_test("Destruyo datos pasando función propia", true);
 }
 
 void pruebas_encolar_cola() {
+	printf("- PRUEBAS CON COLAS -\n");
 	cola_t *cola = cola_crear();
-
 	print_test("Encolo la misma cola", cola_encolar(cola,cola));
-	cola_destruir(cola, free);
+
+	cola_destruir(cola, NULL); print_test("Destruyo la cola", true);	
 }
 
 void pruebas_cola_alumno() {
