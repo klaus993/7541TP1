@@ -1,26 +1,37 @@
-# NOMBRE DEL EJECUTABLE DEL TP
-EXEC = pruebas.out
 CC = gcc
 CFLAGS = -g -std=c99 -Wall -Wconversion -Wno-sign-conversion -Werror
-BIN = $(filter-out $(EXEC).c, $(wildcard *.c))
-BINFILES = $(BIN:.o)
-PROG = main.c
+LFLAGS =  
+FILEOUT = pruebas.out
+VALGRIND = valgrind
+TDA = lista
+VFLAGS = --leak-check=full --track-origins=yes --show-reachable=yes
+VALGRIND_V = $(VALGRIND) $(VFLAGS)
 
-all: $(EXEC)
+all: main.o pruebas_alumno.o $(TDA).o $(EXTRA_O) testing.o
+	$(CC) $(CFLAGS) -o $(FILEOUT) main.o pruebas_alumno.o $(TDA).o $(EXTRA_O) testing.o $(LFLAGS) 
+
+main.o: main.c $(TDA).h testing.h
+	$(CC) $(CFLAGS) -c -o main.o main.c $(LFLAGS)
+
+pruebas_alumno.o: pruebas_alumno.c $(TDA).h $(EXTRA_H) testing.h
+	$(CC) $(CFLAGS) -c -o pruebas_alumno.o pruebas_alumno.c $(LFLAGS)
+
+$(TDA).o: $(TDA).c $(TDA).h 
+	$(CC) $(CFLAGS) -c -o $(TDA).o $(TDA).c $(LFLAGS)
+
+#pila.o: pila.c pila.h
+#	$(CC) $(CFLAGS) -c -o pila.o pila.c $(LFLAGS)
 
 testing.o: testing.c testing.h
-	$(CC) $(CFLAGS) -c testing.c
-
-lista.o: lista.c lista.h
-	$(CC) $(CFLAGS) -c lista.c
-
-pruebas_alumno.o: pruebas_alumno.c
-	$(CC) $(CFLAGS) -c pruebas_alumno.c
-	
-$(EXEC): $(BINFILES) $(PROG)
-	$(CC) $(CFLAGS) $(BINFILES) $(PROG) -o $(EXEC)
+	$(CC) $(CFLAGS) -c -o testing.o testing.c $(LFLAGS)
 
 clean:
-	rm -f $(wildcard *.o) $(EXEC)
+	rm *.o
+	rm -r *.dSYM
+	rm *.out
 
-# .PHONY: clean main
+test:
+	$(VALGRIND_V) ./$(FILEOUT) 
+
+run:
+	./$(FILEOUT)

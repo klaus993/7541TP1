@@ -49,4 +49,6 @@ bool lista_iter_insertar(lista_iter_t *iter, void *dato);
 
 void *lista_iter_borrar(lista_iter_t *iter);
 
+void lista_iterar(lista_t *lista, bool (*visitar)(void *dato, void *extra), void *extra);
+
 #endif

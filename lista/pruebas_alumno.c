@@ -7,7 +7,7 @@ void pruebas_lista_vacia() {
 	print_test("Veo que la lista esté vacía", lista_esta_vacia(lista));
 	print_test("Veo que borrar primero devuelva NULL", lista_borrar_primero(lista) == NULL);
 	print_test("Veo que ver primero devuelva NULL", lista_ver_primero(lista) == NULL);
-	print_test("Veo que el largo sea cero", lista_largo(lista) == 0);
+	print_test("Veo que el largo sea cero", lista_largo(lista) == 0);	
 	lista_destruir(lista, NULL);
 }
 
@@ -20,8 +20,6 @@ void pruebas_enteros() {
 	}
 
 	printf("- PRUEBAS CON NÚMEROS ENTEROS -\n");
-
-	print_test("Veo que la lista esté vacía", lista_esta_vacia(lista));
 
 	lista_imprimir_enteros(lista);
 
@@ -112,8 +110,34 @@ void pruebas_iter() {
 	
 }
 
+bool sumar_int(void *dato, void *extra) {
+	*(int*)extra += *(int*)dato;
+	return true;
+}
+
+void pruebas_iter_interno() {
+	lista_t *lista = lista_crear();
+	bool ok = true;
+	int arr[20];
+	int i;
+	for (i = 0; i < 20; i++) {
+		arr[i] = i + 1;
+	}
+	for (i = 0; i < 20; i++) {
+		ok &= lista_insertar_ultimo(lista, &arr[i]);
+	}
+	print_test("Inserto 20 elementos", ok);
+	lista_imprimir_enteros(lista);
+	int extra = 0;
+	lista_iterar(lista, sumar_int, &extra);
+	printf("%d\n", extra);
+
+	lista_destruir(lista, NULL);
+}
+
 void pruebas_lista_alumno() {
 	//pruebas_lista_vacia();
 	//pruebas_enteros();
-	pruebas_iter();
+	//pruebas_iter();
+	pruebas_iter_interno();
 }
