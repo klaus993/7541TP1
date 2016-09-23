@@ -111,9 +111,6 @@ void pruebas_iter() {
 }
 
 bool sumar_int(void *dato, void *extra) {
-	if (dato == NULL) {
-		return false;
-	}
 	*(int*)extra += *(int*)dato;
 	return true;
 }
@@ -142,9 +139,6 @@ void pruebas_lista_alumno() {
 	//pruebas_lista_vacia();
 	//pruebas_enteros();
 	//pruebas_iter();
-	//pruebas_iter_interno();
-	int a = 1;
-	int b = 2;
-	sumar_int(&a, &b);
-	printf("%d\n", b);
+	pruebas_iter_interno();
+
 }

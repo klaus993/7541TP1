@@ -205,7 +205,7 @@ void *lista_iter_borrar(lista_iter_t *iter) {
 
 void lista_iterar(lista_t *lista, bool (*visitar)(void *dato, void *extra), void *extra) {
 	nodo_t *actual = lista->prim;
-	while (visitar(actual->dato, extra)) {
+	while (!lista_esta_vacia(lista) && visitar(actual->dato, extra)) {
 		actual = actual->prox;
 	}
 }
