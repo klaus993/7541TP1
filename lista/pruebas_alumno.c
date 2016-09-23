@@ -21,7 +21,7 @@ void pruebas_enteros() {
 
 	printf("- PRUEBAS CON NÚMEROS ENTEROS -\n");
 
-	lista_imprimir_enteros(lista);
+	//lista_imprimir_enteros(lista);
 
 	bool ok = true;
 	for (i = 0; i < 20; i++) {
@@ -39,7 +39,7 @@ void pruebas_enteros() {
 
 	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == 40);
 
-	lista_imprimir_enteros(lista);
+	//lista_imprimir_enteros(lista);
 
 	ok = true;
 	bool primero = true;
@@ -69,14 +69,14 @@ void pruebas_iter() {
 		arr[i] = i + 1;
 	}
 
-	lista_imprimir_enteros(lista);
+	//lista_imprimir_enteros(lista);
 
 	bool ok = true;
 	for (i = 0; i < 20; i++) {
 		ok &= lista_insertar_ultimo(lista, &arr[i]);
 	}
 
-	lista_imprimir_enteros(lista);
+	//lista_imprimir_enteros(lista);
 
 	lista_iter_t *iter = lista_iter_crear(lista);
 
@@ -84,10 +84,10 @@ void pruebas_iter() {
 
 	print_test("Iterador no esta en el final", !lista_iter_al_final(iter));
 
-	while (!lista_iter_al_final(iter)) {
-		printf("%d, ", *(int*)lista_iter_ver_actual(iter));
-		lista_iter_avanzar(iter);
-	}
+	//while (!lista_iter_al_final(iter)) {
+	//	printf("%d, ", *(int*)lista_iter_ver_actual(iter));
+	//	lista_iter_avanzar(iter);
+	//}
 	putchar('\n');
 
 	lista_iter_destruir(iter)
@@ -104,8 +104,9 @@ void pruebas_iter() {
 	print_test("Estoy al final?", lista_iter_al_final(iter));
 	print_test("Inserto un item", lista_iter_insertar(iter, &a));
 
-	lista_imprimir_enteros(lista);
+	//lista_imprimir_enteros(lista);
 
+	lista_iter_destruir(iter);
 	lista_destruir(lista, NULL);
 	
 }
@@ -130,7 +131,7 @@ void pruebas_iter_interno() {
 	lista_imprimir_enteros(lista);
 	int extra = 0;
 	lista_iterar(lista, sumar_int, &extra);
-	printf("%d\n", extra);
+	//printf("%d\n", extra);
 
 	lista_destruir(lista, NULL);
 }
