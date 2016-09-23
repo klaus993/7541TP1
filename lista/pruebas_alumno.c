@@ -97,7 +97,7 @@ void pruebas_iter() {
 	iter = lista_iter_crear(lista);
 	print_test("Nuevo iterador creado", iter != NULL);
 	i = 0;
-	while (i < 2) {
+	while (i < 20) {
 		print_test("Avanzo", lista_iter_avanzar(iter));
 		i++;
 	}
