@@ -111,7 +111,7 @@ void pruebas_iter() {
 }
 
 bool sumar_int(void *dato, void *extra) {
-	*(int*)extra += *(int*)dato;
+	*(int*)extra = *(int*)dato + *(int*)extra;
 	return true;
 }
 
@@ -136,9 +136,9 @@ void pruebas_iter_interno() {
 }
 
 void pruebas_lista_alumno() {
-	//pruebas_lista_vacia();
-	//pruebas_enteros();
-	//pruebas_iter();
-	pruebas_iter_interno();
+	pruebas_lista_vacia();
+	pruebas_enteros();
+	pruebas_iter();
+	//pruebas_iter_interno();
 
 }
