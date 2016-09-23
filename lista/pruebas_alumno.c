@@ -111,6 +111,9 @@ void pruebas_iter() {
 }
 
 bool sumar_int(void *dato, void *extra) {
+	if (dato == NULL) {
+		return false;
+	}
 	*(int*)extra += *(int*)dato;
 	return true;
 }
