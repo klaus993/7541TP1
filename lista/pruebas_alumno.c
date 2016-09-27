@@ -1,5 +1,9 @@
 #include "lista.h"
 #include "testing.h"
+#include <assert.h>
+
+
+#define MAX_ELEMENTOS 50000
 
 void pruebas_lista_vacia() {
 	lista_t *lista = lista_crear();
@@ -13,47 +17,64 @@ void pruebas_lista_vacia() {
 
 void pruebas_enteros() {
 	lista_t *lista = lista_crear();
-	int arr[20];
+	int arr[MAX_ELEMENTOS];
 	int i;
-	for (i = 0; i < 20; i++) {
+	bool ok, primero;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {  // Lleno el array con números del 1 al MAX_ELEMENTOS
 		arr[i] = i + 1;
 	}
 
 	printf("- PRUEBAS CON NÚMEROS ENTEROS -\n");
 
-	//lista_imprimir_enteros(lista);
+	ok = true;
+	primero = true;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= lista_insertar_primero(lista, &arr[0]);
+		primero &= *(int*)lista_borrar_primero(lista) == 1;
+	}
+	print_test("Se puede agregar y borrar elementos muchas veces (insertar_primero)", ok);
+	print_test("El valor borrado fue siempre el correcto", primero);
 
-	bool ok = true;
-	for (i = 0; i < 20; i++) {
+	ok = true;
+	primero = true;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= lista_insertar_ultimo(lista, &arr[0]);
+		primero &= *(int*)lista_borrar_primero(lista) == 1;
+	}
+	print_test("Se puede agregar y borrar elementos muchas veces (insertar_ultimo)", ok);
+	print_test("El valor borrado fue siempre el correcto", primero);
+
+	print_test("La lista está vacía", lista_esta_vacia(lista));
+
+	ok = true;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= lista_insertar_ultimo(lista, &arr[i]);
 	}
-	print_test("20 elementos insertados al final", ok);
+	printf("%d elementos insertados al final", MAX_ELEMENTOS); print_test("", ok);
 
-	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == 20);
+	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == MAX_ELEMENTOS);
 
 	ok = true;
-	for (i = 0; i < 20; i++) {
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= lista_insertar_primero(lista, &arr[i]);
+		primero &= *(int*)lista_ver_primero(lista) == arr[i];
 	}
-	print_test("20 elementos insertados al principio", ok);
+	printf("%d elementos insertados al principio", MAX_ELEMENTOS); print_test("", ok);
+	print_test("Uso lista_ver_primero y veo que cada valor insertado sea el correcto", primero);
 
-	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == 40);
-
-	//lista_imprimir_enteros(lista);
+	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == MAX_ELEMENTOS * 2);
 
 	ok = true;
-	bool primero = true;
-	for (i = 20; i > 0; i--) {
+	primero = true;
+	for (i = MAX_ELEMENTOS; i > 0; i--) {
 		primero &= *(int*)lista_ver_primero(lista) == i;
 		ok &= *(int*)lista_borrar_primero(lista) == i;
 	}
 
 	print_test("Uso lista_ver_primero y veo que cada valor a borrar sea el correcto", ok);
-	print_test("Borro los 20 primeros, y veo que los valores sean correctos", ok);
+	printf("Borro los %d primeros, y veo que los valores sean correctos", MAX_ELEMENTOS); print_test("", ok);
 
-	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == 20);
-
-	lista_imprimir_enteros(lista);
+	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == MAX_ELEMENTOS);
 
 	lista_destruir(lista, NULL);
 }
@@ -61,85 +82,195 @@ void pruebas_enteros() {
 void pruebas_iter() {
 	lista_t *lista = lista_crear();
 
-	printf("- PRUEBAS ITERADOR -\n");
+	printf("- PRUEBAS ITERADOR EXTERNO -\n");
 
-	int arr[20];
+	int arr[MAX_ELEMENTOS];
 	int i;
-	for (i = 0; i < 20; i++) {
-		arr[i] = i + 1;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		arr[i] = i;
 	}
 
-	//lista_imprimir_enteros(lista);
+	print_test("Creo lista", lista != NULL);
 
 	bool ok = true;
-	for (i = 0; i < 20; i++) {
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= lista_insertar_ultimo(lista, &arr[i]);
 	}
 
-	//lista_imprimir_enteros(lista);
+	printf("Inserto %d elementos con primitiva de lista", MAX_ELEMENTOS); print_test("", ok);
 
-	lista_iter_t *iter = lista_iter_crear(lista);
+	lista_iter_t *iter = lista_iter_crear(lista); print_test("Creo iterador", iter != NULL);
 
-	print_test("Creo iterador", iter != NULL);
+	print_test("El iterador no esta en el final", !lista_iter_al_final(iter));
 
-	print_test("Iterador no esta en el final", !lista_iter_al_final(iter));
-
-	//while (!lista_iter_al_final(iter)) {
-	//	printf("%d, ", *(int*)lista_iter_ver_actual(iter));
-	//	lista_iter_avanzar(iter);
-	//}
-	putchar('\n');
-
-	lista_iter_destruir(iter)
-	print_test("Destruyo iterador", true);
+	lista_iter_destruir(iter); print_test("Destruyo iterador", true);
 
 	int a = 231;
-	iter = lista_iter_crear(lista);
-	print_test("Nuevo iterador creado", iter != NULL);
-	i = 0;
-	while (i < 20) {
-		print_test("Avanzo", lista_iter_avanzar(iter));
-		i++;
+	iter = lista_iter_crear(lista); print_test("Nuevo iterador creado", iter != NULL);
+	ok = true;
+	bool ok1 = true;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= *(int*)lista_iter_ver_actual(iter) == i;
+		ok1 &= lista_iter_avanzar(iter);
 	}
+
+	printf("Pude avanzar %d veces", MAX_ELEMENTOS); print_test("", ok1);
+	print_test("Cada vez que avancé, el valor del actual fue el correcto", ok);
 	print_test("Estoy al final?", lista_iter_al_final(iter));
-	print_test("Inserto un item", lista_iter_insertar(iter, &a));
+	print_test("Inserto un elemento", lista_iter_insertar(iter, &a));
+	print_test("Veo que el elemento insertado sea el actual", *(int*)lista_iter_ver_actual(iter) == 231 && lista_iter_ver_actual(iter) == &a);
+	
+	print_test("No estoy al final", !lista_iter_al_final(iter));
+	printf("Veo que el largo de la lista sea %d", MAX_ELEMENTOS + 1); print_test("", lista_largo(lista) == MAX_ELEMENTOS + 1);
 
-	//lista_imprimir_enteros(lista);
+	print_test("Borro ultimo elemento", *(int*)lista_iter_borrar(iter) == 231);
 
-	lista_iter_destruir(iter);
-	lista_destruir(lista, NULL);
+	printf("Veo que el largo de la lista sea %d", MAX_ELEMENTOS); print_test("", lista_largo(lista) == MAX_ELEMENTOS);
+
+	lista_iter_destruir(iter); print_test("Destruyo iterador", true);
+
+	iter = lista_iter_crear(lista); print_test("Nuevo iterador creado", iter != NULL);
+
+	ok = true;
+	for (i = 0; i < MAX_ELEMENTOS / 2; i++) {
+		ok &= lista_iter_avanzar(iter);
+	}
+
+	print_test("Avanzo hasta la mitad de la lista", ok);
+	print_test("Veo que el valor actual sea el correcto", *(int*)lista_iter_ver_actual(iter) == MAX_ELEMENTOS / 2);
+
+	int b = 0;
+	print_test("Inserto un elemento", lista_iter_insertar(iter, &b));
+	print_test("Veo que el elemento insertado sea el actual", *(int*)lista_iter_ver_actual(iter) == 0 && lista_iter_ver_actual(iter) == &b);
+
+	print_test("Borro un elemento, veo que el valor sea correcto", *(int*)lista_iter_borrar(iter) == 0);
+
+	print_test("Veo que el valor actual sea el correcto", *(int*)lista_iter_ver_actual(iter) == MAX_ELEMENTOS / 2);
+
+	lista_iter_destruir(iter); print_test("Destruyo iterador", true);
+
+	iter = lista_iter_crear(lista); print_test("Nuevo iterador creado", iter != NULL);
+
+	print_test("Borro el primero, veo que sea 0", *(int*)lista_iter_borrar(iter) == 0);
+
+	print_test("Verifico que el actual sea 1", *(int*)lista_iter_ver_actual(iter) == 1);
+
+	print_test("Inserto un elemento", lista_iter_insertar(iter, &b));
+	print_test("Veo que el elemento insertado sea el actual", *(int*)lista_iter_ver_actual(iter) == 0 && lista_iter_ver_actual(iter) == &b);
+
+	lista_iter_destruir(iter); print_test("Destruyo iterador", true);
+	lista_destruir(lista, NULL); print_test("Destruyo lista", true);
 	
 }
 
 bool sumar_int(void *dato, void *extra) {
-	*(int*)extra = *(int*)dato + *(int*)extra;
+	*(int*)extra += *(int*)dato;
 	return true;
 }
 
+bool contar_elementos(void *dato, void *extra) {
+	*(int*)extra += 1;
+	return true;
+}
+
+bool contar_numeros_pares(void *dato, void *extra) {
+	if (*(int*)dato % 2 == 0) {
+		*(int*)extra += 1;	
+	}
+	return true;
+}
+
+bool numeros_pares_a_lista(void *dato, void *extra) {
+	if (*(int*)dato % 2 == 0) {
+		lista_insertar_ultimo((lista_t*)extra, dato);
+	}
+	return true;
+}
+
+bool _existe_numero(void *dato, void *extra, int num) {
+	if (*(int*)dato == num) {
+		*(bool*)extra = true;
+		return false;
+	}
+	*(bool*)extra = false;
+	return true;
+}
+
+bool existe_fuera(void *dato, void *extra) {
+	return _existe_numero(dato, extra, MAX_ELEMENTOS + 10);
+}
+
+bool existe_dentro(void *dato, void *extra) {
+	return _existe_numero(dato, extra, MAX_ELEMENTOS - 10);
+}
+
+long sumar_consecutivos(int tope) {
+	long suma = 0;
+	for(int i = 1; i <= tope; i++) {
+		suma += i;
+	}
+	return suma;
+}
+
 void pruebas_iter_interno() {
-	lista_t *lista = lista_crear();
+	printf("- PRUEBAS ITERADOR INTERNO -\n");
+	lista_t *lista = lista_crear(); print_test("Creo lista", lista != NULL);
 	bool ok = true;
-	int arr[20];
+	int arr[MAX_ELEMENTOS];
 	int i;
-	for (i = 0; i < 20; i++) {
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		arr[i] = i + 1;
 	}
-	for (i = 0; i < 20; i++) {
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= lista_insertar_ultimo(lista, &arr[i]);
 	}
-	print_test("Inserto 20 elementos", ok);
-	lista_imprimir_enteros(lista);
-	int extra = 0;
-	lista_iterar(lista, sumar_int, &extra);
-	//printf("%d\n", extra);
+	printf("Inserto %d elementos en la lista", MAX_ELEMENTOS); print_test("", ok);
+	int contador = 0;
+	lista_iterar(lista, contar_elementos, &contador);
+	print_test("Cuento elementos de la lista", contador == MAX_ELEMENTOS);
+
+	int suma = 0;
+	lista_iterar(lista, sumar_int, &suma);
+	print_test("Sumo todos los elementos de la lista", suma == sumar_consecutivos(MAX_ELEMENTOS));
+
+	contador = 0;
+	lista_iterar(lista, contar_numeros_pares, &contador);
+	print_test("Cuento los elementos pares de la lista", contador == MAX_ELEMENTOS / 2);
+
+	lista_t *lista_1 = lista_crear(); print_test("Creo lista_1", lista_1 != NULL);
+	lista_iterar(lista_1, NULL, lista);
+	lista_iterar(lista, numeros_pares_a_lista, lista_1);
+	print_test("Inserto elementos pares de lista en lista_1", lista_largo(lista_1) == MAX_ELEMENTOS / 2);
+
+	bool existe;
+	lista_iterar(lista, existe_fuera, &existe);
+	print_test("Busco un número, el número no existe", !existe);
+	lista_iterar(lista, existe_dentro, &existe);
+	print_test("Busco un número, el número existe", existe);
 
 	lista_destruir(lista, NULL);
+	lista_destruir(lista_1, NULL);
+	print_test("Destruyo listas", true);
+}
+
+void pruebas_elementos_dinamicos() {
+	printf("- PRUEBAS CON ELEMENTOS DINÁMICOS -\n");
+	lista_t *lista = lista_crear();
+	bool ok = true;
+	int i;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= lista_insertar_ultimo(lista, malloc(MAX_ELEMENTOS * sizeof(int)));
+	}
+	printf("%d elementos agregados al final", MAX_ELEMENTOS); print_test("", ok);
+
+	lista_destruir(lista, free); print_test("Destruyo la lista pasando funcion propia", true);
+
 }
 
 void pruebas_lista_alumno() {
 	pruebas_lista_vacia();
 	pruebas_enteros();
 	pruebas_iter();
-	//pruebas_iter_interno();
-
+	pruebas_iter_interno();
+	pruebas_elementos_dinamicos();
 }

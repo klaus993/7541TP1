@@ -1,6 +1,8 @@
 CC = gcc
 CFLAGS = -g -std=c99 -Wall -Wconversion -Wno-sign-conversion -Werror
 LFLAGS =  
+EXTRA_O = 
+EXTRA_H = 
 FILEOUT = pruebas.out
 VALGRIND = valgrind
 TDA = lista
@@ -18,6 +20,9 @@ pruebas_alumno.o: pruebas_alumno.c $(TDA).h $(EXTRA_H) testing.h
 
 $(TDA).o: $(TDA).c $(TDA).h 
 	$(CC) $(CFLAGS) -c -o $(TDA).o $(TDA).c $(LFLAGS)
+
+nodo.o: nodo.c nodo.h
+	$(CC) $(CFLAGS) -c -o nodo.o nodo.c $(LFLAGS)
 
 #pila.o: pila.c pila.h
 #	$(CC) $(CFLAGS) -c -o pila.o pila.c $(LFLAGS)

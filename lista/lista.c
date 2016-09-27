@@ -1,17 +1,5 @@
 #include "lista.h"
-
-/***************************************************
- *               ESTRUCTURA NODO                   *
- ***************************************************/
-
-struct nodo {
-	void *dato;
-	nodo_t *prox;
-};
-
-nodo_t *nodo_crear() {
-	return malloc(sizeof(nodo_t));
-}
+#include "nodo.c"
 
 /***************************************************
  *           ESTRUCTURA LISTA ENLAZADA             *
@@ -40,14 +28,12 @@ bool lista_esta_vacia(const lista_t *lista) {
 }
 
 bool lista_insertar_primero(lista_t *lista, void *dato){
-	nodo_t *nodo_nuevo = nodo_crear();
+	nodo_t *nodo_nuevo = nodo_crear(dato);
 	if (nodo_nuevo == NULL) {
 		return false;
 	}
-	nodo_nuevo->dato = dato;
 	lista->cantidad++;
 	if (lista_esta_vacia(lista)) {
-		nodo_nuevo->prox = NULL;
 		lista->prim = nodo_nuevo;
 		lista->ult = nodo_nuevo;
 		return true;
@@ -58,12 +44,10 @@ bool lista_insertar_primero(lista_t *lista, void *dato){
 }
 
 bool lista_insertar_ultimo(lista_t *lista, void *dato) {
-	nodo_t *nodo_nuevo = nodo_crear();
+	nodo_t *nodo_nuevo = nodo_crear(dato);
 	if (nodo_nuevo == NULL) {
 		return false;
 	}
-	nodo_nuevo->prox = NULL;
-	nodo_nuevo->dato = dato;
 	lista->cantidad++;
 	if (lista_esta_vacia(lista)) {
 		lista->prim = nodo_nuevo;
@@ -118,7 +102,7 @@ void lista_imprimir_enteros(const lista_t *lista) {
 	}
 	nodo_t *actual = lista->prim;
 	putchar('[');
-	while (actual != lista->ult) {
+	while (actual->prox != NULL) {
 		printf("%d, ", *(int*)actual->dato);
 		actual = actual->prox;
 	}
@@ -158,7 +142,6 @@ bool lista_iter_avanzar(lista_iter_t *iter){
 	}
 	iter->anterior = iter->actual;
 	iter->actual = iter->actual->prox;
-	//printf("Dato: %d\n", *(int*)iter->actual->dato);
 	return true;
 }
 
@@ -178,25 +161,34 @@ void lista_iter_destruir(lista_iter_t *iter) {
 }
 
 bool lista_iter_insertar(lista_iter_t *iter, void *dato) {
-	nodo_t *nodo_nuevo = nodo_crear();
+	nodo_t *nodo_nuevo = nodo_crear(dato);
 	if (nodo_nuevo == NULL) {
 		return false;
 	}
-	nodo_nuevo->dato = dato;
+	if (iter->actual == iter->lista->prim) {
+		iter->lista->prim = nodo_nuevo;
+	} else {
+		iter->anterior->prox = nodo_nuevo;
+	}
 	nodo_nuevo->prox = iter->actual;
-	iter->anterior->prox = nodo_nuevo;
 	iter->lista->cantidad++;
+	iter->actual = nodo_nuevo;
 	return true;
 }
 
 void *lista_iter_borrar(lista_iter_t *iter) {
-	if (iter->actual->prox == NULL) {
+	if (lista_iter_al_final(iter)) {
 		return NULL;
 	}
-	iter->anterior->prox = iter->actual->prox;
-	iter->actual = iter->actual->prox;
+	if (iter->actual == iter->lista->prim) {
+		iter->lista->prim = iter->lista->prim->prox;
+	} else {
+		iter->anterior->prox = iter->actual->prox;
+	}
 	nodo_t *aux = iter->actual;
 	void *dato = aux->dato;
+	iter->actual = iter->actual->prox;
+	iter->lista->cantidad--;
 	free(aux);
 	return dato;
 }
@@ -205,7 +197,7 @@ void *lista_iter_borrar(lista_iter_t *iter) {
 
 void lista_iterar(lista_t *lista, bool (*visitar)(void *dato, void *extra), void *extra) {
 	nodo_t *actual = lista->prim;
-	while (!lista_esta_vacia(lista) && visitar(actual->dato, extra)) {
+	while (actual != NULL && visitar(actual->dato, extra)) {
 		actual = actual->prox;
 	}
 }
