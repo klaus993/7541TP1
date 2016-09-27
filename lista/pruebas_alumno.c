@@ -2,7 +2,6 @@
 #include "testing.h"
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #define MAX_ELEMENTOS 500
 
@@ -160,6 +159,28 @@ void pruebas_iter() {
 	print_test("Veo que el elemento insertado sea el actual", *(int*)lista_iter_ver_actual(iter) == 0 && lista_iter_ver_actual(iter) == &b);
 
 	lista_iter_destruir(iter); print_test("Destruyo iterador", true);
+
+    iter = lista_iter_crear(lista); print_test("Creo nuevo iterador", iter != NULL);
+    ok = true;
+    while (!lista_iter_al_final(iter)) {
+        ok &= lista_iter_avanzar(iter);
+    }
+    int x = 132, y = 133;
+    print_test("Avanzo hasta el final", ok);
+    print_test("Está al final", lista_iter_al_final(iter));
+    size_t largo = lista_largo(lista);
+    print_test("Inserto un elemento al final", lista_iter_insertar(iter, &x));
+    print_test("Veo que el actual sea el correcto", *(int*)lista_iter_ver_actual(iter) == 132);
+    print_test("Se actualizó el largo", largo + 1 == lista_largo(lista));
+    largo = lista_largo(lista);
+    print_test("Inserta uno más luego del insertado", lista_iter_insertar(iter, &y));
+
+
+    lista_iter_destruir(iter); print_test("Destruyo iterador", true);
+
+    print_test("Inserto elemento al final con primitiva de lista", lista_insertar_ultimo(lista, &x));
+
+
 	lista_destruir(lista, NULL); print_test("Destruyo lista", true);
 	
 }
@@ -284,9 +305,9 @@ void pruebas_elementos_dinamicos() {
 }
 
 void pruebas_lista_alumno() {
-	pruebas_lista_vacia();
-	pruebas_enteros();
+	//pruebas_lista_vacia();
+	//pruebas_enteros();
 	pruebas_iter();
-	pruebas_iter_interno();
-	pruebas_elementos_dinamicos();
+	//pruebas_iter_interno();
+	//pruebas_elementos_dinamicos();
 }
