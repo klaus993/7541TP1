@@ -263,11 +263,20 @@ void pruebas_elementos_dinamicos() {
 	}
 	printf("%d elementos agregados al final", MAX_ELEMENTOS); print_test("", ok);
 
+	printf("Verifico que el largo de la lista sea %d", MAX_ELEMENTOS); print_test("", lista_largo(lista) == MAX_ELEMENTOS);
+
 	ok = true;
 	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= lista_insertar_primero(lista, malloc(MAX_ELEMENTOS * sizeof(int)));
 	}
 	printf("%d elementos agregados al principio", MAX_ELEMENTOS); print_test("", ok);
+
+	printf("Verifico que el largo de la lista sea %d", MAX_ELEMENTOS * 2); print_test("", lista_largo(lista) == MAX_ELEMENTOS * 2);
+
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		free(lista_borrar_primero(lista));
+	}
+	printf("Elimino %d elementos, veo que el largo sea nuevamente %d", MAX_ELEMENTOS, MAX_ELEMENTOS); print_test("", lista_largo(lista) == MAX_ELEMENTOS);
 
 
 	lista_destruir(lista, free); print_test("Destruyo la lista pasando funcion propia", true);
