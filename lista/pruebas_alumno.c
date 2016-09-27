@@ -3,7 +3,7 @@
 #include <assert.h>
 
 
-#define MAX_ELEMENTOS 50000
+#define MAX_ELEMENTOS 500
 
 void pruebas_lista_vacia() {
 	lista_t *lista = lista_crear();
@@ -262,6 +262,13 @@ void pruebas_elementos_dinamicos() {
 		ok &= lista_insertar_ultimo(lista, malloc(MAX_ELEMENTOS * sizeof(int)));
 	}
 	printf("%d elementos agregados al final", MAX_ELEMENTOS); print_test("", ok);
+
+	ok = true;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {
+		ok &= lista_insertar_primero(lista, malloc(MAX_ELEMENTOS * sizeof(int)));
+	}
+	printf("%d elementos agregados al principio", MAX_ELEMENTOS); print_test("", ok);
+
 
 	lista_destruir(lista, free); print_test("Destruyo la lista pasando funcion propia", true);
 

@@ -10,21 +10,42 @@ typedef struct lista lista_t;
 
 lista_t *lista_crear(void);
 
+/* Pre: la lista fue creada.
+Post: devuelve true si la lista está vacía, false en caso contrario. */
 bool lista_esta_vacia(const lista_t *lista);
 
+/* Inserta el dato como primer elemento de la lista.
+Pre: la lista fue creada.
+Post: el nuevo elemento es el primero de la lista. */
 bool lista_insertar_primero(lista_t *lista, void *dato);
 
+/* Inserta el dato como último elemento de la lista.
+Pre: la lista fue creada.
+Post: el nuevo elemento es el último de la lista. */
 bool lista_insertar_ultimo(lista_t *lista, void *dato);
 
+/* Borra el primer elemento de la lista.
+Pre: la lista fue creada.
+Post: el que antes era el segundo elemento es ahora el primero.
+*/
 void *lista_borrar_primero(lista_t *lista);
 
+/* Pre: la lista fue creada.
+Post: devuelve el dato del primer elemento de la lista.
+*/
 void *lista_ver_primero(const lista_t *lista);
 
+/* Pre: la lista fue creada.
+Post: devuelve el largo de la lista.
+*/
 size_t lista_largo(const lista_t *lista);
 
+/* Libera la lista de la memoria, y si es necesario, libera los elementos dinámicos que haya guardados.
+Pre: la lista fue creada. Si se guardaron elementos en memoria dinámica, se le debe pasar por parámetro
+una función acorde para liberar cada uno de estos elementos. En caso de no haber elementos dinámicos, se pasa NULL.
+Post: la lista fue destruida, completamente liberada de la memoria.
+*/
 void lista_destruir(lista_t *lista, void destruir_dato(void *));
-
-void lista_imprimir_enteros(const lista_t *lista);
 
 /******************************************************************/
 
