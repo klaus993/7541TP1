@@ -172,16 +172,16 @@ bool lista_iter_insertar(lista_iter_t *iter, void *dato) {
 	if (nodo_nuevo == NULL) {
 		return false;
 	}
-	if (iter->actual == iter->lista->prim) {
+	if (iter->actual == iter->lista->ult || lista_esta_vacia(iter->lista)) {
+		iter->lista->ult = nodo_nuevo;
+	} 
+	if (iter->actual == iter->lista->prim || lista_esta_vacia(iter->lista)) {
 		iter->lista->prim = nodo_nuevo;
 	} else {
 		iter->anterior->prox = nodo_nuevo;
 	}
 	nodo_nuevo->prox = iter->actual;
 	iter->lista->cantidad++;
-	if (iter->actual == iter->lista->ult) {
-		iter->lista->ult = nodo_nuevo;
-	} 
 	iter->actual = nodo_nuevo;
 	return true;
 }

@@ -59,3 +59,27 @@ void ejemplo_iteradores() {
 
     lista_destruir(super, NULL);
 }
+
+
+/*
+    if (iter->actual == iter->lista->ult) {
+        iter->lista->ult = nodo_nuevo;
+    }
+
+    iter = lista_iter_crear(lista); print_test("Creo nuevo iterador", iter != NULL);
+    ok = true;
+    while (!lista_iter_al_final(iter)) {
+        ok &= lista_iter_avanzar(iter);
+    }
+    int x = 132;
+    print_test("Avanzo hasta el final", ok);
+    size_t largo = lista_largo(lista);
+    print_test("Inserto un elemento al final", lista_iter_insertar(iter, &x));
+    print_test("Se actualizó el largo", largo + 1 == lista_largo(lista));
+    print_test("Veo que el actual sea el correcto", *(int*)lista_iter_ver_actual(iter) == 132);
+
+    lista_iter_destruir(iter); print_test("Destruyo iterador", true);
+
+    print_test("Inserto elemento al final con primitiva de lista", lista_insertar_ultimo(lista, &x));
+
+*/

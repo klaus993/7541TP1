@@ -284,9 +284,9 @@ void pruebas_elementos_dinamicos() {
 }
 
 void pruebas_lista_alumno() {
-	//pruebas_lista_vacia();
-	//pruebas_enteros();
+	pruebas_lista_vacia();
+	pruebas_enteros();
 	pruebas_iter();
-	//pruebas_iter_interno();
-	//pruebas_elementos_dinamicos();
+	pruebas_iter_interno();
+	pruebas_elementos_dinamicos();
 }
