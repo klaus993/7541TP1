@@ -1,5 +1,29 @@
 #include "lista.h"
-#include "nodo.c"
+
+/***************************************************
+ *               ESTRUCTURA NODO                   *
+ ***************************************************/
+
+void *malloc(size_t size);
+void free(void *ptr);
+
+typedef struct nodo {
+	void *dato;
+	struct nodo *prox;
+} nodo_t;
+
+/* Post: devuelve el nodo creado, con el dato pasado por parámetro
+como dato, y con NULL como referencia al próximo. Devuelve NULL si no se pudo crear.*/
+nodo_t *nodo_crear(void *dato) {
+	nodo_t *nodo = malloc(sizeof(nodo_t));
+	if (nodo == NULL) {
+		return NULL;
+	}
+	nodo->dato = dato;
+	nodo->prox = NULL;
+	return nodo;
+}
+
 
 /***************************************************
  *           ESTRUCTURA LISTA ENLAZADA             *
@@ -95,23 +119,6 @@ void lista_destruir(lista_t *lista, void destruir_dato(void *)) {
 	free(lista);
 }
 
-void lista_imprimir_enteros(const lista_t *lista) {
-	if (lista_esta_vacia(lista)) {
-		printf("[]\n");
-		return;
-	}
-	nodo_t *actual = lista->prim;
-	putchar('[');
-	while (actual->prox != NULL) {
-		printf("%d, ", *(int*)actual->dato);
-		actual = actual->prox;
-	}
-	printf("%d", *(int*)actual->dato);
-	putchar(']');
-	putchar('\n');
-}
-
-
 /***************************************************
  *               ITERADOR DE LISTA                 *
  ***************************************************/
@@ -172,6 +179,9 @@ bool lista_iter_insertar(lista_iter_t *iter, void *dato) {
 	}
 	nodo_nuevo->prox = iter->actual;
 	iter->lista->cantidad++;
+	if (iter->actual == iter->lista->ult) {
+		iter->lista->ult = nodo_nuevo;
+	} 
 	iter->actual = nodo_nuevo;
 	return true;
 }
