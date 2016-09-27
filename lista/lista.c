@@ -5,9 +5,6 @@
  *               ESTRUCTURA NODO                   *
  ***************************************************/
 
-void *malloc(size_t size);
-void free(void *ptr);
-
 typedef struct nodo {
 	void *dato;
 	struct nodo *prox;
@@ -143,11 +140,13 @@ lista_iter_t *lista_iter_crear(lista_t *lista) {
 	return iter;
 }
 
+#include <stdio.h>
 /* Pre: el iterador fue creado */
 bool lista_iter_avanzar(lista_iter_t *iter){
 	if (lista_iter_al_final(iter)) {
 		return false;
 	}
+	printf("Estoy en %d\n", *(int*)iter->actual->dato);
 	iter->anterior = iter->actual;
 	iter->actual = iter->actual->prox;
 	return true;
