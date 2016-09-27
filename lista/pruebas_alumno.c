@@ -278,7 +278,6 @@ void pruebas_elementos_dinamicos() {
 	}
 	printf("Elimino %d elementos, veo que el largo sea nuevamente %d", MAX_ELEMENTOS, MAX_ELEMENTOS); print_test("", lista_largo(lista) == MAX_ELEMENTOS);
 
-
 	lista_destruir(lista, free); print_test("Destruyo la lista pasando funcion propia", true);
 
 }
