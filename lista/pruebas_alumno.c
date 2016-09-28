@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-#define MAX_ELEMENTOS 500
+#define MAX_ELEMENTOS 10
 
 void pruebas_lista_vacia() {
 	lista_t *lista = lista_crear();
@@ -159,8 +159,8 @@ void pruebas_iter() {
 	lista_iter_destruir(iter); print_test("Destruyo iterador", true);
 
 	int arr1[MAX_ELEMENTOS];
-	for (i = 0; i < MAX_ELEMENTOS; i++) {
-		arr1[i] = i;
+	for (i = 0; i < MAX_ELEMENTOS; i++) {  // Array del 1 al MAX_ELEMENTOS
+		arr1[i] = i + 1;
 	}
 
 	lista_t *lista1 = lista_crear(); print_test("Creo lista1", lista1 != NULL);
@@ -172,29 +172,30 @@ void pruebas_iter() {
 
 	printf("Inserto %d elementos con primitiva de lista", MAX_ELEMENTOS); print_test("", ok);
 
-
-    iter = lista_iter_crear(lista1); print_test("Creo nuevo iterador", iter != NULL);
+    iter = lista_iter_crear(lista1); print_test("Creo nuevo iterador sobre lista1", iter != NULL);
     print_test("Ver actual con el iterador", lista_iter_ver_actual(iter) == &arr1[0]);
     ok = true;
-    while (!lista_iter_al_final(iter)) {
-        ok &= lista_iter_avanzar(iter);
-    }
-    int x = 132, y = 133;
-    print_test("Avanzo hasta el final", ok);
-    print_test("Está al final", lista_iter_al_final(iter));
-    size_t largo = lista_largo(lista1);
-    print_test("Inserto un elemento al final", lista_iter_insertar(iter, &x));
-    print_test("No está al final", !lista_iter_al_final(iter));
-    print_test("Veo que el actual sea el correcto", *(int*)lista_iter_ver_actual(iter) == 132);
-    print_test("Se actualizó el largo", largo + 1 == lista_largo(lista1));
-    largo = lista_largo(lista1);
-    print_test("Inserta uno más luego del insertado", lista_iter_insertar(iter, &y));
-    print_test("Se actualizó el largo", largo + 1 == lista_largo(lista1));
+    lista_iter_destruir(iter); print_test("Destruyo iter", true);
+    // while (!lista_iter_al_final(iter)) {
+    //     ok &= lista_iter_avanzar(iter);
+    // }
+    // int x = 132, y = 133;
+    // print_test("Avanzo hasta el final", ok);
+    // print_test("Está al final", lista_iter_al_final(iter));
+    // size_t largo = lista_largo(lista1);
+    // print_test("Inserto un elemento al final", lista_iter_insertar(iter, &x));
+    // print_test("No está al final", !lista_iter_al_final(iter));
+    // print_test("Veo que el actual sea el correcto", *(int*)lista_iter_ver_actual(iter) == 132);
+    // print_test("Se actualizó el largo", largo + 1 == lista_largo(lista1));
+    // largo = lista_largo(lista1);
+    // print_test("Avanzo", lista_iter_avanzar(iter));
+    // print_test("Inserta uno más luego del insertado", lista_iter_insertar(iter, &y));
+    // print_test("Se actualizó el largo", largo + 1 == lista_largo(lista1));
     lista_iter_t *jter = lista_iter_crear(lista1); print_test("Creacion de un nuevo iterador", jter != NULL);
 
     ok = true;
     i = 0;
-    while (i < MAX_ELEMENTOS) {
+    while (i < MAX_ELEMENTOS - 1) {
         ok &= lista_iter_avanzar(jter);
         i++;
     }
@@ -203,14 +204,13 @@ void pruebas_iter() {
 
     print_test("No estoy al final", !lista_iter_al_final(jter));
 
-    print_test("Ver actual", lista_iter_ver_actual(iter) == &arr1[MAX_ELEMENTOS - 2]);
+    print_test("Ver actual", *(int*)lista_iter_ver_actual(jter) == 10); printf("Ver actual = %d\n", *(int*)lista_iter_ver_actual(jter));
 
-    print_test("Ver actual con el iterador", lista_iter_ver_actual(jter) == &arr1[0]);
-    print_test("Avanzo en el segundo iterador", lista_iter_avanzar(jter));
-    print_test("Ver actual con el iterador", lista_iter_ver_actual(jter) == &arr1[1]);
+    //print_test("Avanzo en el segundo iterador", lista_iter_avanzar(jter));
+    //print_test("Ver actual con el iterador", lista_iter_ver_actual(jter) == &arr[MAX_ELEMENTOS - 1]);
 
 
-    lista_iter_destruir(iter); print_test("Destruyo iter", true);
+    
     lista_iter_destruir(jter); print_test("Destruyo jter", true);
 
     //print_test("Inserto elemento al final con primitiva de lista", lista_insertar_ultimo(lista, &x));
