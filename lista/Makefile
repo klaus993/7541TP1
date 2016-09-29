@@ -14,7 +14,7 @@ all: main.o pruebas_alumno.o $(TDA).o $(EXTRA_O) testing.o
 	$(CC) $(CFLAGS) -o $(FILEOUT) main.o pruebas_alumno.o $(TDA).o $(EXTRA_O) testing.o $(LFLAGS) 
 
 debug: main.o pruebas_alumno.o $(TDA).o $(EXTRA_O) testing.o
-	$(CC) $(DEBUG) $(CFLAGS) -o $(FILEOUT) main.o pruebas_alumno.o $(TDA).o $(EXTRA_O) testing.o $(LFLAGS) 
+	$(CC) $(CFLAGS) $(DEBUG) -o $(FILEOUT) main.o pruebas_alumno.o $(TDA).o $(EXTRA_O) testing.o $(LFLAGS) 
 
 main.o: main.c $(TDA).h testing.h
 	$(CC) $(CFLAGS) -c -o main.o main.c $(LFLAGS)

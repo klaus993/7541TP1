@@ -1,7 +1,7 @@
 #ifdef DEBUG
-	#define avanzar_pre_print(x)	printf("DEBUG: Estaba en %d", x)
-	#define avanzar_post_print(x)	printf("DEBUG: Estoy en %d", x)
-	#define avanzar_final()	printf("Estoy al final")
+	#define avanzar_pre_print(x)	printf("DEBUG: Estaba en %d\n", x)
+	#define avanzar_post_print(x)	printf("DEBUG: Estoy en %d\n", x)
+	#define avanzar_final()	printf("Estoy al final\n")
 #else
 	#define avanzar_pre_print(x)
 	#define avanzar_post_print(x)
@@ -156,12 +156,12 @@ bool lista_iter_avanzar(lista_iter_t *iter){
 	if (lista_iter_al_final(iter)) {
 		return false;
 	}
-	avanzar_pre_print(*(int*)iter->actual->dato);
-	//printf("DEBUG_AVANZAR: Estaba en en %d\n", *(int*)iter->actual->dato);
+	//avanzar_pre_print(*(int*)iter->actual->dato);
+	printf("DEBUG_AVANZAR: Estaba en en %d\n", *(int*)iter->actual->dato);
 	iter->anterior = iter->actual;
 	iter->actual = iter->actual->prox;
-	(lista_iter_al_final(iter)) ? avanzar_final() : avanzar_post_print(*(int*)iter->actual->dato)
-	//(lista_iter_al_final(iter)) ? printf("DEBUG_AVANZAR: Estoy al final\n") : printf("DEBUG_AVANZAR: Estoy en %d\n", *(int*)iter->actual->dato);
+	//(lista_iter_al_final(iter)) ? avanzar_final() : avanzar_post_print(*(int*)iter->actual->dato);
+	(lista_iter_al_final(iter)) ? printf("DEBUG_AVANZAR: Estoy al final\n") : printf("DEBUG_AVANZAR: Estoy en %d\n", *(int*)iter->actual->dato);
 	return true;
 }
 
