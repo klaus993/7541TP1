@@ -208,6 +208,9 @@ void *lista_iter_borrar(lista_iter_t *iter) {
 	} else {
 		iter->anterior->prox = iter->actual->prox;
 	}
+	if (iter->actual == iter->lista->ult) {
+		iter->lista->ult = NULL;
+	}
 	nodo_t *aux = iter->actual;
 	void *dato = aux->dato;
 	iter->actual = iter->actual->prox;
