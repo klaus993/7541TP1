@@ -2,6 +2,7 @@
 #include "testing.h"
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAX_ELEMENTOS 500
 
