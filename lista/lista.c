@@ -56,11 +56,10 @@ bool lista_insertar_primero(lista_t *lista, void *dato){
 	}
 	lista->cantidad++;
 	if (lista_esta_vacia(lista)) {
-		lista->prim = nodo_nuevo;
 		lista->ult = nodo_nuevo;
-		return true;
+	} else {
+		nodo_nuevo->prox = lista->prim;
 	}
-	nodo_nuevo->prox = lista->prim;
 	lista->prim = nodo_nuevo;
 	return true;
 }
@@ -100,6 +99,13 @@ void *lista_ver_primero(const lista_t *lista) {
 		return NULL;
 	}
 	return lista->prim->dato;
+}
+
+void *lista_ver_ultimo(const lista_t *lista) {
+	if (lista_esta_vacia(lista)) {
+		return NULL;
+	}
+	return lista->ult->dato;
 }
 
 size_t lista_largo(const lista_t *lista) {

@@ -12,6 +12,7 @@ void pruebas_lista_vacia() {
 	print_test("Veo que la lista esté vacía", lista_esta_vacia(lista));
 	print_test("Veo que borrar primero devuelva NULL", lista_borrar_primero(lista) == NULL);
 	print_test("Veo que ver primero devuelva NULL", lista_ver_primero(lista) == NULL);
+	print_test("Veo que ver ultimo devuelva NULL", lista_ver_ultimo(lista) == NULL);
 	print_test("Veo que el largo sea cero", lista_largo(lista) == 0);	
 	lista_destruir(lista, NULL);
 }
@@ -54,6 +55,8 @@ void pruebas_enteros() {
 	printf("%d elementos insertados al final", MAX_ELEMENTOS); print_test("", ok);
 
 	print_test("Veo que el largo de la lista sea el correcto", lista_largo(lista) == MAX_ELEMENTOS);
+
+	print_test("Puebo lista_ver_ultimo es correcto", *(int*)lista_ver_ultimo(lista) == MAX_ELEMENTOS);
 
 	ok = true;
 	for (i = 0; i < MAX_ELEMENTOS; i++) {
@@ -167,6 +170,7 @@ void pruebas_iter() {
 	lista_t *lista1 = lista_crear(); print_test("Creo lista1", lista1 != NULL);
 
 	ok = true;
+	ok1 = true;
 	for (i = 0; i < MAX_ELEMENTOS; i++) {
 		ok &= lista_insertar_ultimo(lista1, &arr1[i]);
 	}
@@ -345,19 +349,16 @@ void pruebas_iter_2() {
 	print_test("Estoy al final", lista_iter_al_final(iter));
 	print_test("Inserto un elemento", lista_iter_insertar(iter, &a));
 	print_test("No estoy al final", !lista_iter_al_final(iter));
-	//printf("Actual: %d\n", *(int*)lista_iter_ver_actual(iter));
+
 	print_test("Avanzo iterador", lista_iter_avanzar(iter));
 	print_test("Estoy al final", lista_iter_al_final(iter));
 	print_test("Inserto un elemento", lista_iter_insertar(iter, &b));
-	//printf("Actual: %d\n", *(int*)lista_iter_ver_actual(iter));
 
 	lista_iter_destruir(iter); print_test("Destuyo iterador", true);
 
-	//printf("Imprimo elementos: "); lista_iterar(lista, imprimir_enteros, NULL); putchar('\n');
 
 	print_test("Inserto un elemento", lista_insertar_ultimo(lista, &c));
 
-	//printf("Imprimo elementos: "); lista_iterar(lista, imprimir_enteros, NULL); putchar('\n');
 
 	lista_destruir(lista, NULL); print_test("Destruyo lista", true);
 }
