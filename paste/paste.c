@@ -33,6 +33,8 @@ int print_pasted_files(const char *dir1, const char *dir2) {
 		ok2 &= print_line(file2);
 		putchar('\n');
 		if ((!ok1 && ok2) || (ok1 && !ok2)) {
+			fclose(file1);
+			fclose(file2);
 			return -1;
 		}
 	}
