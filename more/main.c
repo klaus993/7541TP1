@@ -1,6 +1,5 @@
 #include "more.h"
 #include <unistd.h>
-#include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
 
@@ -10,18 +9,23 @@
 #define NUM_ERROR "%s error: el segundo parámetro debe ser un número entero positivo.\n"
 
 int main(int argc, char *argv[]) {
+	int n = atoi(argv[2]);
+	int exit_status;
 	if (argc != 3) {
 		printf(USAGE, argv[0]);
 		return -1;
 	}
 	if (access(argv[1], F_OK) != 0) {
 		printf(FILE_ERROR, argv[0], argv[1]);
+		return -1;
 	}
-	if (!isdigit(argv[2])) {
+	if (n <= 0) {
 		printf(NUM_ERROR, argv[0]);
+		return -1;
 	}
-	if (atoi(argv[2]) <= 0) {
-		printf(NUM_ERROR, argv[0]);
+	exit_status = more(argv[1], n);
+	if (exit_status == 1) {
+		printf(FOPEN_ERROR, argv[0]);
 	}
 	return 0;
 }

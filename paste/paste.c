@@ -1,23 +1,9 @@
 #define _POSIX_C_SOURCE 200809L
 #include "paste.h"
 #include <string.h>
+#include "../lib/lib.h"
 
 #define SEP '\t'
-
-bool print_line(FILE *file) {
-	char c = fgetc(file);
-	if (c == EOF) {
-		return false;
-	}
-	while (c != '\n') {
-		putchar(c);
-		c = fgetc(file);
-		if (c == EOF) {
-			return false;
-		}
-	}
-	return true;
-}
 
 int print_pasted_files(const char *dir1, const char *dir2) {
 	FILE *file1 = fopen(dir1, "r");
