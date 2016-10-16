@@ -5,7 +5,7 @@
 
 #define PARAM_ERROR "%s error: se deben indicar dos archivos.\n"
 #define FILE_ERROR "%s error: el archivo %s no es un archivo existente.\n"
-#define FOPEN_ERROR "%s error: no se pudo abrir el archivo"
+#define FOPEN_ERROR "%s error: no se pudo abrir el archivo\n"
 
 int main(int argc, char *argv[]) {
 	int exit_status;
