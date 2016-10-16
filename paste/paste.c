@@ -1,10 +1,10 @@
 #define _POSIX_C_SOURCE 200809L
 #include "paste.h"
+#include <string.h>
 
 #define SEP '\t'
 
 bool print_line(FILE *file) {
-	int i = 0;
 	char c = fgetc(file);
 	if (c == EOF) {
 		return false;
