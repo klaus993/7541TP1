@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 size_t strlen(const char *s);
 
@@ -10,7 +11,6 @@ char** split(const char* str, char sep) {
 	if (sep == '\0') {
 		return NULL;
 	}
-	//size_t strlen = strlen(str);
 	char **result;
 	size_t count = 0;
 	int i;
@@ -21,30 +21,32 @@ char** split(const char* str, char sep) {
 		}
 		tmp++;
 	}
-	printf("count = %zu\n", count);
 	count++;
-	result = malloc(sizeof(char*) * (count));
-	for (i = 0; i < count; i++) {
-		result[i] = malloc(sizeof(char) * (count / 2));
-	}
-	int j = 0;
-	for (i = 0; i < count; i++) {
-		while (str[j] != sep && str[j] != '\0') {
-			// guardar caracter
-			//putchar(str[j]);
-			result[i][j] = str[j];
-			j++;
+	result = malloc(sizeof(char*) * (count + 1));  // el +1 es para el NULL del final
+	tmp = str;
+	size_t last = 0;
+	i = 0;
+	while (true) {
+		if (*tmp == sep || *tmp == '\0') {
+			result[i] = strndup(tmp - last, last);
+			i++;
+			last = 0;
+		} else {
+			last++;
 		}
-		j++;
-		result[i][j] = '\0';
-		//putchar('-');
+		if (*tmp == '\0') break;
+		tmp++;
 	}
-
+	result[i] = NULL;
 	return result;
 }
 
+size_t count_chars_strv(char** strv) {
+	
+}
+
 char* join(char** strv, char sep) {
-	return NULL	;
+	return NULL;
 }
 
 void free_strv(char* strv[]) {
@@ -55,19 +57,14 @@ void free_strv(char* strv[]) {
 }
 
 int main() {
-	//char **strv = malloc(sizeof(char*) * 4);
-	//strv[0] = strdup("abc");
-	//strv[1] = strdup("def");
-	//strv[2] = strdup("ghi");
-	//strv[3] = NULL;
 	int i;
-	char ** splited = split("asd,asd,asd", ',');
-	for (i = 0; i < 3; i++) {
-		printf("%s\n", splited[i]);
+	char ** splited = split(",", ',');
+	putchar('[');
+	for (i = 0; splited[i] != NULL; i++) {
+		printf("\"%s\", ", splited[i]);
 	}
-	//for (i = 0; i < 3; i++) {
-	//	free(strv[i]);
-	//}
-	//free(strv);
+	putchar(']');
+	putchar('\n');
+	free_strv(splited);
 	return 0;
 }
