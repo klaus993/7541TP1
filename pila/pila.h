@@ -19,6 +19,10 @@ typedef struct pila pila_t;
  *                    PRIMITIVAS DE LA PILA
  * *****************************************************************/
 
+// Devuelve la cantidad de elementos en la pila
+// Pre: la pila fue creada.
+size_t pila_cantidad(pila_t *pila);
+
 // Crea una pila.
 // Post: devuelve una nueva pila vacía.
 pila_t* pila_crear(void);

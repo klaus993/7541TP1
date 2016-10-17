@@ -29,6 +29,10 @@ struct pila {
 
 bool pila_redimensionar(pila_t *pila, size_t tamanio);
 
+size_t pila_cantidad(pila_t *pila) {
+	return pila->cantidad;
+}
+
 pila_t* pila_crear(void) {
 	pila_t *pila = malloc(sizeof(pila_t));
 	if (pila == NULL) {
