@@ -2,6 +2,7 @@
 #define PILA_H
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 /* *****************************************************************
