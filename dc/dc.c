@@ -8,8 +8,8 @@ bool dc(char *input, double *result) {
 	double x, y, r, a;
 	i = input;
 	while (*i != '\0') {
-		a = atof(*i)
-		if (a) {
+		a = atof(*i);
+		if (a != 0) {
 			pila_apilar(pila, &a);
 		} else if (*i != ' ') {
 			if (pila_cantidad(pila) < 2) {
