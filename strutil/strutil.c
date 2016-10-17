@@ -1,11 +1,9 @@
-#include "strutil.h"
 #define _POSIX_C_SOURCE 200809L
+#include "strutil.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-
-size_t strlen(const char *s);
 
 char** split(const char* str, char sep) {
 	if (sep == '\0') {
@@ -41,12 +39,37 @@ char** split(const char* str, char sep) {
 	return result;
 }
 
-size_t count_chars_strv(char** strv) {
-	
-}
-
 char* join(char** strv, char sep) {
-	return NULL;
+	size_t strings = 0, chars = 0;
+	char *result;
+	while (strv[strings] != NULL) {
+		while (strv[strings][chars] != '\0') {
+			chars++;	//para contar cantidad de caracteres y luego poder reservar la memoria que haga falta
+		}
+		strings++;	//para calcular la cantidad de cadenas que hay, y por lo tanto calcular la cantidad de separadores a insertar
+	}
+	if (strings == 0) {
+		result = malloc(sizeof(char));
+		result[0] = '\0';
+		return result;
+	}
+	result = malloc(sizeof(char) * chars + strings); //le sumo strings para hacer espacio para los separadores y el \0
+	if (!result) {
+		return NULL;
+	}
+	int k = 0;
+	for (int i = 0; strv[i] != NULL; i++) {
+		if (i != 0) {
+			result[k] = sep;
+			k++;
+		}
+		for (int j = 0; strv[i][j] != '\0'; j++) {
+			result[k] = strv[i][j];
+			k++;
+		}
+	}
+	result[k] = '\0';
+	return result;
 }
 
 void free_strv(char* strv[]) {
@@ -56,15 +79,27 @@ void free_strv(char* strv[]) {
 	free(strv);
 }
 
-int main() {
-	int i;
-	char ** splited = split(",", ',');
+void print_strv(const char *strv[]) {
 	putchar('[');
-	for (i = 0; splited[i] != NULL; i++) {
-		printf("\"%s\", ", splited[i]);
+	for (int i = 0; strv[i] != NULL; i++) {
+		printf("\"%s\", ", strv[i]);
 	}
 	putchar(']');
 	putchar('\n');
-	free_strv(splited);
+}
+
+int main() {
+	//char ** splited = split("asd,def", ',');
+	//print_strv(splited);
+	char **strv = malloc(sizeof(char*) * 3);
+	strv[0] = strdup("AA");
+	strv[1] = strdup("BB");
+	strv[2] = NULL;
+	char *joined = join(strv, '|');
+	printf("%s\n", joined);
+	//free(joined);
+	//free_strv(splited);
+	free_strv(strv);
+	free(joined);
 	return 0;
 }
