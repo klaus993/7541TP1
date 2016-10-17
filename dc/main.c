@@ -9,9 +9,9 @@
 char *fgets(char *s, int size, FILE *stream);
 
 int main(int argc, char* argv[]) {
-	char *input = NULL;
+	char input[] = "5 1 2 + 4 * + 3 -";
 	double result;
-	fgets(input, 30, stdin);
+	//fgets(input, 30, stdin);
 	//getline(&input, NULL, stdin);
 	//if (getline(&input, NULL, stdin) == -1) {
 	//	printf(INPUT_ERROR, argv[0]);
@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
 	if (dc(input, &result)) {
 		printf("%lf\n", result);
 	}
+	//free(&result);
 	/*while (getline(&input, NULL, stdin) != -1) {
 		input[strlen(input) - 1] = '\0';
 		if (dc(input, &result)) {
