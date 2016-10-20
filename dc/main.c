@@ -8,8 +8,8 @@
 
 char *fgets(char *s, int size, FILE *stream);
 
-int main(int argc, char* argv[]) {
-	char input[] = "5 1 2 + 4 * + 3 -";
+int main(int argc, char *argv[]) {
+	char input[] = "5 2 / 2 *";
 	double result;
 	//fgets(input, 30, stdin);
 	//getline(&input, NULL, stdin);
@@ -20,7 +20,8 @@ int main(int argc, char* argv[]) {
 	//input[strlen(input) - 1] = '\0';
 	printf("%s\n", input);
 	if (dc(input, &result)) {
-		printf("%lf\n", result);
+	//dc(input, &result);
+		printf("%.2lf\n", result);
 	}
 	//free(&result);
 	/*while (getline(&input, NULL, stdin) != -1) {
