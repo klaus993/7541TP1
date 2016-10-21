@@ -9,7 +9,7 @@
 char *fgets(char *s, int size, FILE *stream);
 
 int main(int argc, char *argv[]) {
-	char input[] = "5 2 / 2 *";
+	char input[] = "3 5 +";
 	double result;
 	//fgets(input, 30, stdin);
 	//getline(&input, NULL, stdin);
@@ -24,8 +24,11 @@ int main(int argc, char *argv[]) {
 		printf("%.2lf\n", result);
 	}
 	//free(&result);
+	//char s[] = "12.123a";
+	//printf("%lf\n", atof(s));
+	//free(&result);
 	/*while (getline(&input, NULL, stdin) != -1) {
-		input[strlen(input) - 1] = '\0';
+		input[strlen(input) - 2] = '\0';
 		if (dc(input, &result)) {
 			printf("%lf\n", result);
 		}

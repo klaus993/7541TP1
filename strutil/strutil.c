@@ -12,7 +12,7 @@ char** split(const char* str, char sep) {
 	char **result;
 	size_t count = 0;
 	int i;
-	char *tmp = str;
+	const char *tmp = str;
 	while (*tmp) {
 		if (*tmp == sep) {
 			count++;
@@ -32,7 +32,9 @@ char** split(const char* str, char sep) {
 		} else {
 			last++;
 		}
-		if (*tmp == '\0') break;
+		if (*tmp == '\0') {
+			break;
+		}
 		tmp++;
 	}
 	result[i] = NULL;
@@ -53,7 +55,7 @@ char* join(char** strv, char sep) {
 		result[0] = '\0';
 		return result;
 	}
-	result = malloc(sizeof(char) * chars + strings); //le sumo strings para hacer espacio para los separadores y el \0
+	result = malloc(sizeof(char) * chars + strings); //le sumo 'strings' para hacer espacio para los separadores y el \0
 	if (!result) {
 		return NULL;
 	}
@@ -88,18 +90,18 @@ void print_strv(const char *strv[]) {
 	putchar('\n');
 }
 
-int main() {
-	//char ** splited = split("asd,def", ',');
-	//print_strv(splited);
-	char **strv = malloc(sizeof(char*) * 3);
-	strv[0] = strdup("AA");
-	strv[1] = strdup("BB");
-	strv[2] = NULL;
-	char *joined = join(strv, '|');
-	printf("%s\n", joined);
-	//free(joined);
-	//free_strv(splited);
-	free_strv(strv);
-	free(joined);
-	return 0;
-}
+// int main() {
+// 	//char ** splited = split("asd,def", ',');
+// 	//print_strv(splited);
+// 	char **strv = malloc(sizeof(char*) * 3);
+// 	strv[0] = strdup("AA");
+// 	strv[1] = strdup("BB");
+// 	strv[2] = NULL;
+// 	char *joined = join(strv, '|');
+// 	printf("%s\n", joined);
+// 	//free(joined);
+// 	//free_strv(splited);
+// 	free_strv(strv);
+// 	free(joined);
+// 	return 0;
+// }
