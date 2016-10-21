@@ -9,15 +9,17 @@
 char *fgets(char *s, int size, FILE *stream);
 
 int main(int argc, char *argv[]) {
-	char input[] = "3 5 +";
+	char *input = "1 5 + 2 *";
 	double result;
-	//fgets(input, 30, stdin);
+	//FILE *file = fopen("testfile", "r");
+	//fgets(input, 30, file);
+	//fclose(file);
 	//getline(&input, NULL, stdin);
-	//if (getline(&input, NULL, stdin) == -1) {
+	//if (input == NULL) {
 	//	printf(INPUT_ERROR, argv[0]);
 	//	return -1;
 	//}
-	//input[strlen(input) - 1] = '\0';
+	//input[strlen(input) - 2] = '\0';
 	printf("%s\n", input);
 	if (dc(input, &result)) {
 	//dc(input, &result);
