@@ -6,7 +6,7 @@
 bool dc(char *input, double *result) {
 	char *i;
 	pila_t *pila = pila_crear();
-	double *x, *y, *r = NULL, *a;
+	double *x = NULL, *y = NULL, *r = NULL, *a;
 	i = input;
 	while (*i != '\0') {
 		if (*i == ' ') {
@@ -55,12 +55,12 @@ bool dc(char *input, double *result) {
 			}
 			if (pila_ver_tope(pila) == NULL && *(i + 1) == '\0') {
 				*result = *r;
-				free(x);
-				free(y);
+				if (x) free(x);
+				if (y) free(y);
 				pila_destruir(pila);
 				return true;
 			}
-			pila_apilar(pila, &r);
+			pila_apilar(pila, r);
 		}
 		i++;
 	}
