@@ -11,7 +11,7 @@ char *fgets(char *s, int size, FILE *stream);
 
 int main(int argc, char *argv[]) {
 	char *input = "2 5 2 + * 2 / ";
-	double result;
+	double *result;
 	//FILE *file = fopen("testfile", "r");
 	//fgets(input, 30, file);
 	//fclose(file);
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 	} else {
 		printf(INPUT_ERROR, argv[0]);
 	}
-	//free(&result);
+	free(&result);
 	//char s[] = "12.123a";
 	//printf("%lf\n", atof(s));
 	//free(&result);
