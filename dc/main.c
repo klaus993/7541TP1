@@ -4,26 +4,29 @@
 #include <stdlib.h>
 #include "dc.h"
 
-#define INPUT_ERROR "%s error: no se ha ingresado ninguna operación.\n"
+#define OP_ERROR "%s error: no se ha ingresado ninguna operación.\n"
+#define INPUT_ERROR "%s error: entrada inválida.\n"
 
 char *fgets(char *s, int size, FILE *stream);
 
 int main(int argc, char *argv[]) {
-	char *input = "1 5 + 2 *";
+	char *input = "2 5 2 + * 2 / ";
 	double result;
 	//FILE *file = fopen("testfile", "r");
 	//fgets(input, 30, file);
 	//fclose(file);
 	//getline(&input, NULL, stdin);
 	//if (input == NULL) {
-	//	printf(INPUT_ERROR, argv[0]);
+	//	printf(OP_ERROR, argv[0]);
 	//	return -1;
 	//}
 	//input[strlen(input) - 2] = '\0';
-	printf("%s\n", input);
+	//printf("%s\n", input);
 	if (dc(input, &result)) {
 	//dc(input, &result);
 		printf("%.2lf\n", result);
+	} else {
+		printf(INPUT_ERROR, argv[0]);
 	}
 	//free(&result);
 	//char s[] = "12.123a";
