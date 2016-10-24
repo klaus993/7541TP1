@@ -6,7 +6,7 @@
 bool dc(char *input, double *result) {
 	char *i = input;
 	pila_t *pila = pila_crear();
-	double *x = NULL, *y = NULL, *r = NULL, *a;
+	double *x = NULL, *y = NULL, *r, *a;
 	while (*i != '\0') {
 		if (*i == ' ') {
 			i++;
