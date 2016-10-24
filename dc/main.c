@@ -10,8 +10,8 @@
 char *fgets(char *s, int size, FILE *stream);
 
 int main(int argc, char *argv[]) {
-	char *input = "2 5 2 + * 2 / ";
-	double *result;
+	char *input = "2 5 +";
+	double *result = NULL;
 	//FILE *file = fopen("testfile", "r");
 	//fgets(input, 30, file);
 	//fclose(file);
@@ -22,13 +22,13 @@ int main(int argc, char *argv[]) {
 	//}
 	//input[strlen(input) - 2] = '\0';
 	//printf("%s\n", input);
-	if (dc(input, &result)) {
+	if (dc(input, result)) {
 	//dc(input, &result);
-		printf("%.2lf\n", result);
+		printf("%.2lf\n", *result);
 	} else {
 		printf(INPUT_ERROR, argv[0]);
 	}
-	free(&result);
+	free(result);
 	//char s[] = "12.123a";
 	//printf("%lf\n", atof(s));
 	//free(&result);

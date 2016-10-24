@@ -4,25 +4,26 @@
 #include <ctype.h>
 
 bool dc(char *input, double *result) {
-	char *i;
+	char *i = input;
 	pila_t *pila = pila_crear();
 	double *x = NULL, *y = NULL, *r = NULL, *a;
-	i = input;
 	while (*i != '\0') {
 		if (*i == ' ') {
 			i++;
 			continue;
 		}
-		a = malloc(sizeof(double));
-		*a = atof(i);
-		if (*a != 0) {
-			if (isdigit(*(i + 1)) || *(i + 1) == '.') {
-				i++;
-				continue;
-			}
+		//a = malloc(sizeof(double));
+		//*a = atof(i);
+		if (atof(i) != 0) {
+			a = malloc(sizeof(double));
+			*a = atof(i);
+			//if (isdigit(*(i + 1)) || *(i + 1) == '.') {
+			//	i++;
+			//	continue;
+			//}
 			pila_apilar(pila, a);
 		} else {
-			free(a);
+			//free(a);
 			y = pila_desapilar(pila);
 			x = pila_desapilar(pila);
 			if (x == NULL || y == NULL) {
