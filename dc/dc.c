@@ -12,8 +12,6 @@ bool dc(char *input, double *result) {
 			i++;
 			continue;
 		}
-		//a = malloc(sizeof(double));
-		//*a = atof(i);
 		if (atof(i) != 0) {
 			a = malloc(sizeof(double));
 			*a = atof(i);
@@ -23,7 +21,6 @@ bool dc(char *input, double *result) {
 			//}
 			pila_apilar(pila, a);
 		} else {
-			//free(a);
 			y = pila_desapilar(pila);
 			x = pila_desapilar(pila);
 			if (x == NULL || y == NULL) {
