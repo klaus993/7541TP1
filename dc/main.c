@@ -11,7 +11,7 @@ char *fgets(char *s, int size, FILE *stream);
 
 int main(int argc, char *argv[]) {
 	char *input = "2 5 +";
-	double *result = NULL;
+	double *result;
 	//FILE *file = fopen("testfile", "r");
 	//fgets(input, 30, file);
 	//fclose(file);
