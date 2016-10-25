@@ -1,6 +1,9 @@
 #include "pila.h"
 #include <stdlib.h>
 
+#undef NULL
+#define NULL 0
+
 #define TAM_INICIAL 10
 /* Modificador utilizado en caso de necesitar redimensionar la pila, se multiplica
 o se divide por este número, dependiendo si se quiere agrandar o achicar. */
@@ -17,7 +20,7 @@ o se divide por este número, dependiendo si se quiere agrandar o achicar. */
 /* Definición del struct pila proporcionado por la cátedra.
  */
 struct pila {
-    double *datos;
+    pila_dato_t *datos;
     size_t cantidad;  // Cantidad de elementos almacenados.
     size_t capacidad;  // Capacidad del arreglo 'datos'.
 };
@@ -34,7 +37,7 @@ pila_t* pila_crear(void) {
 	if (pila == NULL) {
 		return NULL;
 	}
-	pila->datos = malloc(TAM_INICIAL * sizeof(double));
+	pila->datos = malloc(TAM_INICIAL * sizeof(pila_dato_t));
 	if (pila->datos == NULL) {
 		free(pila);
 		return NULL;
@@ -63,16 +66,16 @@ bool pila_apilar(pila_t *pila, double valor) {
 	return true;
 }
 
-double pila_ver_tope(const pila_t *pila) {
+pila_dato_t pila_ver_tope(const pila_t *pila) {
 	if (pila_esta_vacia(pila)) {
-		return 0;
+		return NULL;
 	}
 	return pila->datos[pila->cantidad - 1];
 }
 
-double pila_desapilar(pila_t *pila) {
+pila_dato_t pila_desapilar(pila_t *pila) {
 	if (pila_esta_vacia(pila)) {
-		return 0;
+		return NULL;
 	}
 	if (pila->cantidad <= pila->capacidad / MOD_DISMINUCION) {
 		pila_redimensionar(pila, pila->capacidad / (MOD_REDIMENSION));
@@ -82,7 +85,7 @@ double pila_desapilar(pila_t *pila) {
 
 /* Primitiva privada, cambia el tamaño de la pila */
 bool pila_redimensionar(pila_t *pila, size_t tamanio) {
-	double *aux = realloc(pila->datos, sizeof(double) * tamanio);
+	pila_dato_t *aux = realloc(pila->datos, sizeof(pila_dato_t) * tamanio);
 	if (aux == NULL) {
 		return false;
 	}

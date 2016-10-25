@@ -17,13 +17,13 @@ bool dc(const char *raw_input, double *result) {
 		if (atof(input[i]) != 0) {
 			pila_apilar(pila, atof(input[i]));
 		} else {
-			y = pila_desapilar(pila);
-			x = pila_desapilar(pila);
-			if (x == 0|| y == 0) {
+			if (pila_esta_vacia(pila)) {
 				free_strv(input);
 				pila_destruir(pila);
 				return false;
 			}
+			y = pila_desapilar(pila);
+			x = pila_desapilar(pila);
 			switch (*input[i]) {
 				case '+':
 					r = x + y;
@@ -42,7 +42,7 @@ bool dc(const char *raw_input, double *result) {
 					pila_destruir(pila);
 					return false;
 			}
-			if (pila_ver_tope(pila) == 0 && input[i + 1] == NULL) {
+			if (pila_esta_vacia(pila) && input[i + 1] == NULL) {
 				*result = r;
 				free_strv(input);
 				pila_destruir(pila);
