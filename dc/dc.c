@@ -55,7 +55,8 @@ bool dc(char *input, double *result) {
 				*result = *r;
 				free(r);
 				if (x) free(x);
-				if (y) free(y);
+				//if (y) free(y);
+				free(a);
 				pila_destruir(pila);
 				return true;
 			}

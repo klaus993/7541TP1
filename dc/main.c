@@ -5,7 +5,7 @@
 #include "dc.h"
 
 #define OP_ERROR "%s error: no se ha ingresado ninguna operación.\n"
-#define INPUT_ERROR "%s error: entrada inválida.\n"
+#define INPUT_ERROR "%s error: entrada inválida: \"%s\".\n"
 
 int main(int argc, char *argv[]) {
 	char *input = NULL;// = "2 5 + 2 * 2 /	";
@@ -22,11 +22,13 @@ int main(int argc, char *argv[]) {
 	//	printf("REEMPLAZO POR BARRA CERO\n");
 		input[read - 1] = '\0';
 	}
-	printf("%s\n", input);
+	//printf("%s\n", input);
 	if (dc(input, &result)) {
-		printf("%.2lf\n", result);
+		printf("%s = %.2lf\n", input, result);
 	} else {
-		printf(INPUT_ERROR, argv[0]);
+		printf(INPUT_ERROR, argv[0], input);
+		free(input);
+		return 1;
 	}
 	while ((read = getline(&input, &size, stdin)) != -1) {
 	//	printf("read = %zu\n", read);
@@ -34,11 +36,13 @@ int main(int argc, char *argv[]) {
 		//	printf("REEMPLAZO POR BARRA CERO\n");
 			input[read - 1] = '\0';
 		}
-		printf("%s\n", input);
+		//printf("%s\n", input);
 		if (dc(input, &result)) {
-			printf("%.2lf\n", result);
+			printf("%s = %.2lf\n", input, result);
 		} else {
-			printf(INPUT_ERROR, argv[0]);
+			printf(INPUT_ERROR, argv[0], input);
+			free(input);
+			return 1;
 		}
 	}
 	free(input);
