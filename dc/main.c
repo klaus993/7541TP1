@@ -12,18 +12,20 @@ char *fgets(char *s, int size, FILE *stream);
 int main(int argc, char *argv[]) {
 	char *input = NULL;// = "2 5 + 2 * 2 /	";
 	double result;
-	ssize_t read = getline(&input, NULL, stdin);
-	printf("%s\n", input);
+	size_t size = 0;
+	ssize_t read = getline(&input, &size, stdin);
+	//printf("%zu\n", read);
 	if (input == NULL) {
 		printf(OP_ERROR, argv[0]);
 		return -1;
 	}
-	if (input[strlen(input) - 1] == '\n') {
-		input[strlen(input) - 1] = '\0';
+	//printf("%s\n", input);
+	if (input[read - 1] == '\n') {
+		printf("REEMPLAZO POR BARRA CERO\n");
+		input[read - 1] = '\0';
 	}
 	printf("%s\n", input);
 	if (dc(input, &result)) {
-	//dc(input, &result);
 		printf("%.2lf\n", result);
 	} else {
 		printf(INPUT_ERROR, argv[0]);
@@ -32,11 +34,19 @@ int main(int argc, char *argv[]) {
 	//char s[] = "12.123a";
 	//printf("%lf\n", atof(s));
 	//free(&result);
-	/*while (getline(&input, NULL, stdin) != -1) {
-		input[strlen(input) - 2] = '\0';
-		if (dc(input, &result)) {
-			printf("%lf\n", result);
+	while ((read = getline(&input, &size, stdin)) != -1) {
+		printf("read = %zu\n", read);
+		if (input[read - 1] == '\n') {
+			printf("REEMPLAZO POR BARRA CERO\n");
+			input[read - 1] = '\0';
 		}
-	}*/
+		printf("%s\n", input);
+		if (dc(input, &result)) {
+			printf("%.2lf\n", result);
+		} else {
+			printf(INPUT_ERROR, argv[0]);
+		}
+	}
+	//printf("%zu\n", read);
 	return 0;
 }
