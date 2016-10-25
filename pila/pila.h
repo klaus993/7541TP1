@@ -40,14 +40,14 @@ bool pila_esta_vacia(const pila_t *pila);
 // Agrega un nuevo elemento a la pila. Devuelve falso en caso de error.
 // Pre: la pila fue creada.
 // Post: se agregó un nuevo elemento a la pila, valor es el nuevo tope.
-bool pila_apilar(pila_t *pila, void* valor);
+bool pila_apilar(pila_t *pila, double valor);
 
 // Obtiene el valor del tope de la pila. Si la pila tiene elementos,
 // se devuelve el valor del tope. Si está vacía devuelve NULL.
 // Pre: la pila fue creada.
 // Post: se devolvió el valor del tope de la pila, cuando la pila no está
 // vacía, NULL en caso contrario.
-void* pila_ver_tope(const pila_t *pila);
+double pila_ver_tope(const pila_t *pila);
 
 // Saca el elemento tope de la pila. Si la pila tiene elementos, se quita el
 // tope de la pila, y se devuelve ese valor. Si la pila está vacía, devuelve
@@ -55,7 +55,7 @@ void* pila_ver_tope(const pila_t *pila);
 // Pre: la pila fue creada.
 // Post: si la pila no estaba vacía, se devuelve el valor del tope anterior
 // y la pila contiene un elemento menos.
-void* pila_desapilar(pila_t *pila);
+double pila_desapilar(pila_t *pila);
 
 
 /* *****************************************************************
