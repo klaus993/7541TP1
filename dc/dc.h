@@ -3,6 +3,6 @@
 
 #include <stdbool.h>
 
-bool dc(char *input, double *result);
+bool dc(const char *raw_input, double *result);
 
 #endif

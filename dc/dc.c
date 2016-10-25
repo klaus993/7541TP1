@@ -1,24 +1,22 @@
 #include "dc.h"
 #include "../pila/pila.h"
+#include "../strutil/strutil.h"
 #include <stdlib.h>
 #include <ctype.h>
 
-bool dc(char *input, double *result) {
-	char *i = input;
+bool dc(const char *raw_input, double *result) {
+	char **input = split(raw_input, ' ');
 	pila_t *pila = pila_crear();
 	double *x = NULL, *y = NULL, *r, *a;
-	while (*i != '\0') {
-		if (*i == ' ') {
+	int i = 0;
+	while (input[i] != NULL) {
+		if (*input[i] == ' ') {
 			i++;
 			continue;
 		}
-		if (atof(i) != 0) {
+		if (atof(input[i]) != 0) {
 			a = malloc(sizeof(double));
-			*a = atof(i);
-			//if (isdigit(*(i + 1)) || *(i + 1) == '.') {
-			//	i++;
-			//	continue;
-			//}
+			*a = atof(input[i]);
 			pila_apilar(pila, a);
 		} else {
 			y = pila_desapilar(pila);
@@ -26,12 +24,12 @@ bool dc(char *input, double *result) {
 			if (x == NULL || y == NULL) {
 				if (x) free(x);
 				if (y) free(y);
-				// if (r) free(r);
+				free_strv(input);
 				pila_destruir(pila);
 				return false;
 			}
 			r = malloc(sizeof(double));
-			switch (*i) {
+			switch (*input[i]) {
 				case '+':
 					*r = *x + *y;
 					break;
@@ -48,15 +46,17 @@ bool dc(char *input, double *result) {
 					free(x);
 					free(y);
 					free(r);
+					free_strv(input);
 					pila_destruir(pila);
 					return false;
 			}
-			if (pila_ver_tope(pila) == NULL && *(i + 1) == '\0') {
+			if (pila_ver_tope(pila) == NULL && input[i + 1] == NULL) {
 				*result = *r;
 				free(r);
 				if (x) free(x);
-				//if (y) free(y);
-				free(a);
+				if (y) free(y);
+				//free(a);
+				free_strv(input);
 				pila_destruir(pila);
 				return true;
 			}
@@ -66,7 +66,10 @@ bool dc(char *input, double *result) {
 	}
 	if (x) free(x);
 	if (y) free(y);
+	free_strv(NULL);
 	pila_destruir(pila);
 	//free(r);
 	return false;
 }
+
+void free_data(double *x, double *y, double *r);
