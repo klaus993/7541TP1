@@ -12,7 +12,7 @@ char *fgets(char *s, int size, FILE *stream);
 int main(int argc, char *argv[]) {
 	char *input = NULL;// = "2 5 + 2 * 2 /	";
 	double result;
-	getline(&input, NULL, stdin);
+	ssize_t read = getline(&input, NULL, stdin);
 	printf("%s\n", input);
 	if (input == NULL) {
 		printf(OP_ERROR, argv[0]);
