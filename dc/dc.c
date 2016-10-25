@@ -53,6 +53,7 @@ bool dc(char *input, double *result) {
 			}
 			if (pila_ver_tope(pila) == NULL && *(i + 1) == '\0') {
 				*result = *r;
+				free(r);
 				if (x) free(x);
 				if (y) free(y);
 				pila_destruir(pila);
@@ -62,9 +63,9 @@ bool dc(char *input, double *result) {
 		}
 		i++;
 	}
-	free(x);
-	free(y);
+	if (x) free(x);
+	if (y) free(y);
 	pila_destruir(pila);
-	free(r);
+	//free(r);
 	return false;
 }
