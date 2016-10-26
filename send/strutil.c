@@ -83,24 +83,3 @@ void free_strv(char* strv[]) {
 	}
 	free(strv);
 }
-
-void print_strv(const char *strv[]) {
-	putchar('[');
-	for (int i = 0; strv[i] != NULL; i++) {
-		printf("\"%s\", ", strv[i]);
-	}
-	putchar(']');
-	putchar('\n');
-}
-
-int main () {
-	char *strv[4];
-	strv[0] = strdup("hola");
-	strv[1] = strdup("que");
-	strv[2] = strdup("tal");
-	strv[3] = NULL;
-	char *str = join(strv, ' ');
-	printf("%s-\n", str);
-	free(str);
-	return 0;
-}

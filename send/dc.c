@@ -14,7 +14,7 @@
 bool dc(const char *raw_input, double *result) {
 	char **input = split(raw_input, ' ');
 	pila_t *pila = pila_crear();
-	double x = 0, y = 0, r;//, a;
+	double x = 0, y = 0, r;
 	int i = 0;
 	while (input[i] != NULL) {
 		if (atof(input[i]) != 0) {
