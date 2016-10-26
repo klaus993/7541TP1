@@ -89,3 +89,15 @@ void print_strv(const char *strv[]) {
 	putchar(']');
 	putchar('\n');
 }
+
+int main () {
+	char **strv;
+	strv[0] = strdup("hola");
+	strv[1] = strdup("que");
+	strv[2] = strdup("tal");
+	strv[3] = NULL;
+	char *str = join(strv, ' ');
+	printf("%s-\n", str);
+	free(str);
+	return 0;
+}

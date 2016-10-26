@@ -17,10 +17,6 @@ bool dc(const char *raw_input, double *result) {
 	double x = 0, y = 0, r;//, a;
 	int i = 0;
 	while (input[i] != NULL) {
-		if (*input[i] == ' ') {
-			i++;
-			continue;
-		}
 		if (atof(input[i]) != 0) {
 			pila_apilar(pila, atof(input[i]));
 		} else {
