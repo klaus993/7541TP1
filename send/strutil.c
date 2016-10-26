@@ -91,7 +91,7 @@ void print_strv(const char *strv[]) {
 }
 
 int main () {
-	char **strv;
+	char *strv[4];
 	strv[0] = strdup("hola");
 	strv[1] = strdup("que");
 	strv[2] = strdup("tal");
