@@ -89,4 +89,3 @@ void print_strv(const char *strv[]) {
 	putchar(']');
 	putchar('\n');
 }
-
