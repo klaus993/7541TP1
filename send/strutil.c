@@ -44,11 +44,14 @@ char** split(const char* str, char sep) {
 char* join(char** strv, char sep) {
 	size_t strings = 0, chars = 0;
 	char *result;
+	int i, j = 0;
 	while (strv[strings] != NULL) {
-		while (strv[strings][chars] != '\0') {
+		while (strv[strings][j] != '\0') {
 			chars++;	//para contar cantidad de caracteres y luego poder reservar la memoria que haga falta
+			j++;
 		}
 		strings++;	//para calcular la cantidad de cadenas que hay, y por lo tanto calcular la cantidad de separadores a insertar
+		j = 0;
 	}
 	if (strings == 0) {
 		result = malloc(sizeof(char));
@@ -60,12 +63,12 @@ char* join(char** strv, char sep) {
 		return NULL;
 	}
 	int k = 0;
-	for (int i = 0; strv[i] != NULL; i++) {
+	for (i = 0; strv[i] != NULL; i++) {
 		if (i != 0) {
 			result[k] = sep;
 			k++;
 		}
-		for (int j = 0; strv[i][j] != '\0'; j++) {
+		for (j = 0; strv[i][j] != '\0'; j++) {
 			result[k] = strv[i][j];
 			k++;
 		}
