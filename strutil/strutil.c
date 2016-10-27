@@ -20,7 +20,7 @@ char** split(const char* str, char sep) {
 		tmp++;
 	}
 	count++;
-	result = malloc(sizeof(char*) * (count + 1));  // el +1 es para el NULL del final
+	result = malloc(sizeof(char*) * count);
 	tmp = str;
 	size_t last = 0;
 	i = 0;

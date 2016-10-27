@@ -20,7 +20,7 @@ char** split(const char* str, char sep) {
 		tmp++;
 	}
 	count++;
-	result = malloc(sizeof(char*) * (count + 1));  // el +1 es para el NULL del final
+	result = malloc(sizeof(char*) * (count + 1)); // El +1 es para el NULL del final
 	tmp = str;
 	size_t last = 0;
 	i = 0;
@@ -48,7 +48,7 @@ char* join(char** strv, char sep) {
 	while (strv[strings] != NULL) {
 		while (strv[strings][j] != '\0') {
 			chars++;	//para contar cantidad de caracteres y luego poder reservar la memoria que haga falta
-			j++;
+			j++;		// para recorrer las cadenas dentro de arreglo de punteros
 		}
 		strings++;	//para calcular la cantidad de cadenas que hay, y por lo tanto calcular la cantidad de separadores a insertar
 		j = 0;

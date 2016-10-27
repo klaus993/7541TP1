@@ -1,6 +1,7 @@
 #ifndef PILA_H
 #define PILA_H
 
+// Aquí se define el tipo de dato deseado a apilar
 #define pila_dato_t double
 
 #include <stdbool.h>

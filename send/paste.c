@@ -10,12 +10,14 @@
 
 #define PARAM_ERROR "%s error: se deben indicar dos archivos.\n"
 #define FILE_ERROR "%s error: el archivo %s no es un archivo existente.\n"
-#define FOPEN_ERROR "%s error: no se pudo abrir el archivo\n"
+#define FOPEN_ERROR "%s error: no se pudo abrir alguno de los archivos indicados.\n"
 
 int print_pasted_files(const char *dir1, const char *dir2) {
 	FILE *file1 = fopen(dir1, "r");
 	FILE *file2 = fopen(dir2, "r");
 	if (!file1 || !file2) {
+		if (file1) fclose(file1);
+		if (file2) fclose(file2);
 		return 1;
 	}
 	bool ok1 = true;
@@ -53,7 +55,6 @@ int main(int argc, char *argv[]) {
 	exit_status = print_pasted_files(argv[1], argv[2]);
 	if (exit_status == 1) {
 		printf(FOPEN_ERROR, argv[0]);
-		return -2;
 	}
 	return exit_status;
 }
