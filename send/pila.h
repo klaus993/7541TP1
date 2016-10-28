@@ -1,12 +1,9 @@
 #ifndef PILA_H
 #define PILA_H
-
 // Aquí se define el tipo de dato deseado a apilar
 #define pila_dato_t double
-
 #include <stdbool.h>
 #include <stdlib.h>
-
 
 /* *****************************************************************
  *                DEFINICION DE LOS TIPOS DE DATOS
@@ -17,7 +14,6 @@
 
 struct pila;  // Definición completa en pila.c.
 typedef struct pila pila_t;
-
 
 /* *****************************************************************
  *                    PRIMITIVAS DE LA PILA
@@ -56,11 +52,9 @@ pila_dato_t pila_ver_tope(const pila_t *pila);
 // y la pila contiene un elemento menos.
 pila_dato_t pila_desapilar(pila_t *pila);
 
-
 /* *****************************************************************
  *                    PRUEBAS PARA LA PILA
  * *****************************************************************/
-
 // Realiza pruebas sobre la implementación de la pila del alumno.
 //
 // Las pruebas deben emplazarse en el archivo ‘pruebas_alumno.c’, y
