@@ -1,0 +1,17 @@
+name: Test GH cli
+on:
+  push:
+    branches:
+      - test-gh-cli
+
+jobs:
+  test-gh-cli:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.KTOKEN }}
+    steps:
+
+      - uses: actions/checkout@v3
+      - run: gh variable list
+      - run: gh variable set MYVAR -b var
+      - run: gh variable list
